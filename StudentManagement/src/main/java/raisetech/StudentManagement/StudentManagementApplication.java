@@ -14,7 +14,7 @@ public class StudentManagementApplication {
 	}
 
 	@GetMapping("/number")
-	public int number() {
-		return 100 * 100;
+	public String hello() {
+		return "Hello World";
 	}
 }
