@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentsCourses;
+import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
 @Service
@@ -23,10 +25,13 @@ public class StudentService {
     return repository.search();
   }
 
-
-
   public List<StudentsCourses> searchStudentCourseList() {
     //絞り込み処理、抽出処理。特定のコース情報を抽出する。
     return repository.searchStudentsCourses();
+  }
+
+  @Transactional
+  public void registerStudent(StudentDetail studentDetail) {
+    repository.registerStudent(studentDetail.getStudent());
   }
 }
