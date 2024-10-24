@@ -26,6 +26,10 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	//Thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.3.4'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.3.4'
+
 	//apache commons lang
 	implementation("org.apache.commons:commons-lang3:3.17.0")
 	//Lombok
