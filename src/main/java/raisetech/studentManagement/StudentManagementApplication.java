@@ -5,27 +5,42 @@ import java.util.Map;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
 public class StudentManagementApplication {
 
-	private String name = "Hikaru";
-	private int age = 25;
+	private Map<String, Integer> map = new HashMap<>();
 
 	public static void main(String[] args) {
 		SpringApplication.run(StudentManagementApplication.class, args);
 	}
-@GetMapping("/studentInfo")
-	public String getStudentInfo() {
-		return name + " " + age;
+@GetMapping("/students")
+	public Map<String, Integer> getAllStudents() {
+		return map;
 	}
 
-	@PostMapping("/studentInfo")
-		public void setStudentInfo(String name, int age){
-		this.name = name;
-		this.age = age;
+	@PostMapping("/students")
+	public String addStudent(
+			@RequestParam String name,
+			@RequestParam int age
+	) {
+		map.put(name, age);
+		return name + " (" + age + ") added.";
 	}
+
+@GetMapping("/students/{name}")
+public String getStudentAge(@PathVariable String name)	{
+		if(map.containsKey(name)) {
+			return "Name: " + name + ", Age : " + map.get(name);
+		} else {
+			return "Student[" + name + "] not found.";
+		}
+}
+
 }
