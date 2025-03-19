@@ -20,10 +20,17 @@ public class StudentService {
   }
 
   public List<Student> searchStudentList() {
-    return repository.search();
+    //検索処理
+    repository.search();
+    //絞り込み検索、「年齢が30代のだけ抽出する」
+    //抽出したリストをコントローラーに返す。
   }
 
   public List<StudentsCourses> searchStudentCourse() {
+
+    repository.courseSearch();
+
+    //「javaコース」のみを抽出して検索する。
     return repository.courseSearch();
   }
 
