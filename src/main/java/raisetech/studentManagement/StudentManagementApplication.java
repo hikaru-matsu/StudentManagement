@@ -24,10 +24,16 @@ public class StudentManagementApplication {
 		SpringApplication.run(StudentManagementApplication.class, args);
 	}
 
-@GetMapping("/studentInfo")
-	public String getStudent(@RequestParam String nickname) {
-		Student student =repository.searchByName(nickname);
-		return student.getName() +" " + student.getAge();
+@GetMapping("/student")
+	public String getStudent(@RequestParam int id) {
+		Student student = repository.searchByName(id);
+		return student.getName()+ ": " + student.getAge() + "歳";
 	}
+
+@GetMapping("/studentList")
+	public List<Student> getStudentList() {
+		return repository.search();
+	} 
+
 }
 
