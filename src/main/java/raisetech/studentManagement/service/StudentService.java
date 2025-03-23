@@ -1,6 +1,7 @@
 package raisetech.studentManagement.service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,17 +22,33 @@ public class StudentService {
 
   public List<Student> searchStudentList() {
     //検索処理
-    repository.search();
+    List<Student> students = repository.search();
+    List<Student>filteredStudentList = new ArrayList<>();
     //絞り込み検索、「年齢が30代のだけ抽出する」
     //抽出したリストをコントローラーに返す。
+    for(Student student : students) {
+      int age = student.getAge();
+        if(age > 30 && age < 40) {
+          filteredStudentList.add(student);
+        }
+    }
+    return filteredStudentList;
   }
 
   public List<StudentsCourses> searchStudentCourse() {
 
-    repository.courseSearch();
+    List<StudentsCourses> studentCourseList = repository.courseSearch();
+    List<StudentsCourses> filteredStudentCourse = new ArrayList<>();
 
     //「javaコース」のみを抽出して検索する。
-    return repository.courseSearch();
+
+    for(StudentsCourses studentCourse : studentCourseList) {
+      String course = studentCourse.getCourseName();
+      if(course.equals("Javaコース")) {
+        filteredStudentCourse.add(studentCourse);
+      }
+    }
+    return filteredStudentCourse;
   }
 
 }
