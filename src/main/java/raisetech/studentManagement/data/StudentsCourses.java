@@ -1,8 +1,7 @@
-package raisetech.studentManagement;
+package raisetech.studentManagement.data;
 
 import java.time.LocalDate;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class StudentsCourses {
