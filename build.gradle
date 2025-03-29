@@ -37,7 +37,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	//Mysqlドライバ
+	//MYSQLドライバ
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	//MyBatis
