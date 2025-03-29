@@ -12,10 +12,10 @@ public class Student {
   private String name;
   private int age;
   private String furigana;
-  private String nickName;
+  private String nickname;
   private String email;
   private String region;
   private String gender;
   private String remark;
-  private Boolean isdelated;
+  private Boolean isdeleted;
 }

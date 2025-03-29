@@ -25,7 +25,11 @@ repositories {
 }
 
 dependencies {
+	//springboot
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	//thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
 	//Apache commons lang
 	implementation 'org.apache.commons:commons-lang3:3.17.0'
