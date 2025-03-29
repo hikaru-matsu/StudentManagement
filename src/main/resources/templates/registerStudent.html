@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>受講生登録</title>
 </head>
 <body>
-$END$
+  <h1>受講生登録</h1>
+    <form th:action="@{registerStudent}" th:object="${studentDetail}" method="post">
+      <table>
+        <tr>
+          <td><label>名前</label></td>
+          <td><input th:field="*{student.name}"></td>
+        </tr>
+        <tr>
+          <td><label>年齢</label></td>
+          <td><input th:field="*{student.age}"></td>
+        </tr>
+        <tr>
+          <td><label>フリガナ</label></td>
+          <td><input th:field="*{student.kanaName}"></td>
+        </tr>
+        <tr>
+          <td><label>ニックネーム</label></td>
+          <td><input th:field="*{student.nickname}"></td>
+        </tr>
+        <tr>
+          <td><label>メール</label></td>
+          <td><input th:field="*{student.email}"></td>
+        </tr>
+        <tr>
+          <td><label>地域</label></td>
+          <td><input th:field="*{student.region}"></td>
+        </tr>
+        <tr>
+          <td><label>性別</label></td>
+          <td><input th:field="*{student.gender}"></td>
+        </tr>
+        <tr>
+          <td><label>備考</label></td>
+          <td><input th:field="*{student.remark}"></td>
+        </tr>
+      </table>
+      <div>
+        <input type="submit" value="登録">
+      </div>
+    </form>
+
 </body>
 </html>
