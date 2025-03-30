@@ -40,6 +40,10 @@
           <td><label>備考</label></td>
           <td><input th:field="*{student.remark}"></td>
         </tr>
+        <tr th:each="course, stat : *{studentsCourses}">
+          <td><label>受講コース名</label></td>
+          <td><input th:field="*{studentsCourses[__${stat.index}__].courseName}"></td>
+        </tr>
       </table>
       <div>
         <input type="submit" value="登録">
