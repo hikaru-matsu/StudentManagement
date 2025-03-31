@@ -1,10 +1,12 @@
 package raisetech.studentManagement.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import raisetech.studentManagement.data.Student;
 import raisetech.studentManagement.data.StudentsCourses;
+import raisetech.studentManagement.domain.StudentDetail;
 import raisetech.studentManagement.repository.StudentRepository;
 
 
@@ -25,5 +27,19 @@ public class StudentService {
 
   public List<StudentsCourses> searchStudentCourseList() {
     return repository.courseSearch();
+  }
+
+  public void saveStudent(StudentDetail studentDetail) {
+    Student student = studentDetail.getStudent();
+    repository.insertStudent(student);
+
+    int studentId = student.getId();
+
+    List<StudentsCourses> courses = studentDetail.getStudentsCourses();
+    for (StudentsCourses course : courses) {
+      course.setStudentId(studentId);
+      course.setStartDate(LocalDate.now());
+      repository.insertStudentCourses(course);
+    }
   }
 }

@@ -10,7 +10,6 @@ import raisetech.studentManagement.domain.StudentDetail;
 
 
 @Component
-
 public class StudentConverter {
 
   public List<StudentDetail> convertStudentDetails(List<Student> students,
