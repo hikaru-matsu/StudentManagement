@@ -45,5 +45,11 @@ public class StudentService {
     }
   }
 
+  public Student findById(Long id) {
+    return repository.findById(id);
+  }
 
+  public void reviseStudent(Student student) {
+    repository.editStudent(student);
+  }
 }

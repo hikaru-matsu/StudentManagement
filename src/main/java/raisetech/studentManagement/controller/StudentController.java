@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.studentManagement.controller.converter.StudentConverter;
@@ -65,5 +68,18 @@ public class StudentController {
     service.saveStudent(studentDetail);
     //System.out.println("保存処理開始：" + studentDetail.getStudent().getName());
     return"redirect:/studentList";
+  }+6
+
+  @GetMapping("/updateStudent/{id}")
+  public String showUpdateForm(@PathVariable Long id, Model model) {
+    Student student = service.findById(id);
+    model.addAttribute("student", student);
+    return "updateStudent";
+  }
+
+  @PostMapping("/updateStudent")
+  public String updateStudent(@ModelAttribute Student student) {
+    service.reviseStudent(student);
+    return "redirect:/studentList";
   }
 }
