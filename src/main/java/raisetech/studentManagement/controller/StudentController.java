@@ -68,7 +68,7 @@ public class StudentController {
     service.saveStudent(studentDetail);
     //System.out.println("保存処理開始：" + studentDetail.getStudent().getName());
     return"redirect:/studentList";
-  }+6
+  }
 
   @GetMapping("/updateStudent/{id}")
   public String showUpdateForm(@PathVariable Long id, Model model) {
