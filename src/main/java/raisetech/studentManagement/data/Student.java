@@ -5,13 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 public class Student {
-
-  private int id;
+  private Integer id;
   private String name;
-  private int age;
-  private String furigana;
+  private Integer age;
+  private String kanaName;
   private String nickname;
   private String email;
   private String region;
