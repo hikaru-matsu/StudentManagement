@@ -29,6 +29,7 @@
       <td th:text="${studentDetail.student.gender}">男性</td>
       <td th:text="${studentDetail.student.remark}">Javaの勉強中</td>
       <td><a th:href="@{/updateStudent/{id}(id=${studentDetail.student.id})}">編集</a></td>
+      <td><a th:href="@{/deleteStudent/{id}(id=${studentDetail.student.id})}">削除</a></td>
     </tr>
   </table>
 </body>

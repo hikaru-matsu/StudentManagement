@@ -46,4 +46,11 @@ public class StudentService {
     Student student = studentDetail.getStudent();
     repository.updateStudent(student);
   }
+
+  public void delete(Long id) {
+    Student student = repository.findById(id);
+    student.setIsdeleted(true);
+    repository.updateIsDeleted(student.getId(), true);
+  }
+
 }
