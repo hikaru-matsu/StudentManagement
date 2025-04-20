@@ -44,6 +44,6 @@ public class StudentService {
 
   public void editStudent(StudentDetail studentDetail) {
     Student student = studentDetail.getStudent();
-    repository.renewStudent(student);
+    repository.updateStudent(student);
   }
 }

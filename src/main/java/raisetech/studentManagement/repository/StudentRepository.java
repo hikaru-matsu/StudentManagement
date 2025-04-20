@@ -23,7 +23,7 @@ public interface StudentRepository {
   void insertStudent(Student student);
 
   @Update("UPDATE students SET name = #{name}, age = #{age}, kanaName = #{kanaName}, nickname = #{nickname}, email = #{email}, region = #{region}, gender = #{gender}, remark = #{remark} WHERE id = #{id}")
-  void renewStudent(Student student);
+  void updateStudent(Student student);
 
   @Select("SELECT * FROM students WHERE id = #{id}")
   Student findById(long id);
