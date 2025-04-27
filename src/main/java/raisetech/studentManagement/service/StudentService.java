@@ -42,7 +42,7 @@ public class StudentService {
     return studentDetail;
   }
 
-  public void editStudent(StudentDetail studentDetail) {
+  public void updateStudent(StudentDetail studentDetail) {
     Student student = studentDetail.getStudent();
     repository.updateStudent(student);
   }
