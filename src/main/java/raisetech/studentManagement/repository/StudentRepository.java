@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import raisetech.studentManagement.data.Student;
-import raisetech.studentManagement.data.StudentsCourses;
+import raisetech.studentManagement.data.StudentCourse;
 
 /**
  * 受講生テーブルと受講生コーステーブルと紐づくRepositoryです。
@@ -19,18 +19,33 @@ public interface StudentRepository {
   List<Student> search();
 
   @Select("SELECT * FROM students_courses")
-  List<StudentsCourses> courseSearch();
+  List<StudentCourse> courseSearch();
 
+  /**
+   * 受講生を新規登録します。IDは自動採番をおこなう。
+   * @param student　受講生情報
+   */
   @Insert("INSERT INTO students (name, age, kanaName, nickname, email, region, gender, remark, isdeleted) values (#{name}, #{age}, #{kanaName}, #{nickname}, #{email}, #{region}, #{gender}, #{remark}, false)")
   @Options(useGeneratedKeys = true, keyProperty = "id")
   void registerStudent(Student student);
 
+  /**
+   * 受講生コース情報を新規登録します。IDに関しては自動採番します。
+   * @param studentCourse　受講生コース情報
+   */
   @Insert("INSERT INTO students_courses (student_id, course_name, start_date) values (#{studentId}, #{courseName}, NOW())")
   @Options(useGeneratedKeys = true, keyProperty = "id")
-  void registerStudentsCourses(StudentsCourses studentsCourses);
+  void registerStudentCourse(StudentCourse studentCourse);
 
+  /**
+   * 受講生を更新します。
+   * @param student
+   */
   @Update("UPDATE students SET name = #{name}, age = #{age}, kanaName = #{kanaName}, nickname = #{nickname}, email = #{email}, region = #{region}, gender = #{gender}, remark = #{remark}  WHERE id = #{id}")
   void updateStudent(Student student);
+
+  @Update("UPDATE students_courses SET course_name = #{courseName} WHERE student_id = #{studentId}")
+  void updateStudentCourses(StudentCourse studentCourse);
 
   @Update("UPDATE students SET isdeleted = #{isdeleted} WHERE id = #{id}")
   void updateIsDeleted(long id, boolean isdeleted);
@@ -39,6 +54,6 @@ public interface StudentRepository {
   Student findById(long id);
 
   @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}")
-  List<StudentsCourses> findByStudentId(long studentId);
+  List<StudentCourse> findByStudentId(long studentId);
 }
 

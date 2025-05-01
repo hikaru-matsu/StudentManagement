@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import raisetech.studentManagement.controller.converter.StudentConverter;
 import raisetech.studentManagement.data.Student;
-import raisetech.studentManagement.data.StudentsCourses;
+import raisetech.studentManagement.data.StudentCourse;
 import raisetech.studentManagement.domain.StudentDetail;
 import raisetech.studentManagement.repository.StudentRepository;
 
@@ -27,32 +27,46 @@ public class StudentService {
 
   public List<StudentDetail> searchStudentList() {
     List<Student>studentList = repository.search();
-    List<StudentsCourses> studentsCoursesList = repository.courseSearch();
+    List<StudentCourse> studentsCoursesList = repository.courseSearch();
     return converter.convertStudentDetails(studentList, studentsCoursesList);
   }
 
   @Transactional
   public void registerStudent(StudentDetail studentDetail) {
     Student student = studentDetail.getStudent();
-    repository.registerStudent(student);
 
-    List<StudentsCourses>studentsCourses = studentDetail.getStudentsCourses();
-    for (StudentsCourses studentCourse : studentsCourses) {
-      studentCourse.setStudentId(student.getId());
-      studentCourse.setStartDate(new Date());
-      repository.registerStudentsCourses(studentCourse);
-    }
+    repository.registerStudent(student);
+    List<StudentCourse>studentsCourses = studentDetail.getStudentCourseList();
+    studentsCourses.forEach(studentCourse -> {
+      initStudentsCourse(studentCourse, student);
+      repository.registerStudentCourse(studentCourse);
+    });
+  }
+
+  /**
+   * 受講生コース情報を登録する際の初期情報を設定する。
+   *
+   * @param studentCourse
+   * @param student
+   */
+  private void initStudentsCourse(StudentCourse studentCourse, Student student) {
+    studentCourse.setStudentId(student.getId());
+    studentCourse.setStartDate(new Date());
   }
 
   public StudentDetail findDetailById(long id) {
     Student student = repository.findById(id);
-    List<StudentsCourses>studentCourses = repository.findByStudentId(id);
-    return new StudentDetail(student, studentCourses);
+    List<StudentCourse>studentCourseList = repository.findByStudentId(id);
+    return new StudentDetail(student, studentCourseList);
   }
 
   public void updateStudent(StudentDetail studentDetail) {
     Student student = studentDetail.getStudent();
     repository.updateStudent(student);
+    List<StudentCourse>studentCourse = studentDetail.getStudentCourseList();
+    for(StudentCourse studentCourses : studentCourse) {
+      repository.updateStudentCourses(studentCourses);
+    }
   }
 
   public void delete(Long id) {

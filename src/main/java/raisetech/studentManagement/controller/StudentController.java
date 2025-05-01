@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.studentManagement.controller.converter.StudentConverter;
@@ -25,7 +27,7 @@ public class StudentController {
   }
 
   /**
-   * 受講生一覧検索
+   * 受講生詳細一覧検索
    * @return　受講生一覧（全件）
    */
   @GetMapping("/studentList")
@@ -50,22 +52,36 @@ public class StudentController {
     return service.findDetailById(id);
   }
 
-  @PostMapping("/updateStudent/{id}")
+  /**
+   * 受講生詳細の更新を行います。
+   * @param studentDetail　受講生詳細
+   */
+  @PutMapping("/updateStudent/{id}")
   public ResponseEntity<String> updateStudent(@RequestBody StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
     return ResponseEntity.ok("更新処理がせいこうしました。");
   }
 
+  /**
+   * 受講生詳細の登録を行います。
+   * 受講生と受講生コース情報を個別に登録し、受講生コース情報には受講生情報を紐づける値を設定します。
+   * @param studentDetail
+   * @return　実行結果
+   */
   @PostMapping("/registerStudent")
   public ResponseEntity<String> registerStudent(@RequestBody StudentDetail studentDetail) {
     service.registerStudent(studentDetail);
     return ResponseEntity.ok("登録処理がせいこうしました。");
   }
 
-  @GetMapping("/deleteStudent/{id}")
-    public String delete(@PathVariable Long id, Model model) {
+  /**
+   * 受講生詳細の削除を行います。（論理削除）
+   * @param id
+   */
+  @PatchMapping("/deleteStudent/{id}")
+    public ResponseEntity<String> delete(long id) {
       service.delete(id);
-      return "redirect:/studentList";
+      return ResponseEntity.ok("削除が成功しました");
   }
 
 }
