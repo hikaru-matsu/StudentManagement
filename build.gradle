@@ -31,6 +31,9 @@ dependencies {
 	//thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
+	//Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation:3.4.5'
+
 	//Apache commons lang
 	implementation 'org.apache.commons:commons-lang3:3.17.0'
 	//lombok

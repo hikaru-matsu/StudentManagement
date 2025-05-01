@@ -15,9 +15,16 @@ import raisetech.studentManagement.data.StudentCourse;
 @Mapper
 public interface StudentRepository {
 
-  @Select("SELECT * FROM students WHERE isdeleted = false")
+  /**
+   * 受講生情報を全件取得します。
+   * @return student
+   */
   List<Student> search();
 
+  /**
+   * 受講生コース情報を全件取得します。
+   * @return studentCourse
+   */
   @Select("SELECT * FROM students_courses")
   List<StudentCourse> courseSearch();
 
@@ -50,7 +57,11 @@ public interface StudentRepository {
   @Update("UPDATE students SET isdeleted = #{isdeleted} WHERE id = #{id}")
   void updateIsDeleted(long id, boolean isdeleted);
 
-  @Select("SELECT * FROM students WHERE id = #{id}")
+  /**
+   * 受講生の単一検索
+   * @param id
+   * @return 一件の受講生情報
+   */
   Student findById(long id);
 
   @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}")
