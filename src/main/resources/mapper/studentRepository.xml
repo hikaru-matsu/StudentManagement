@@ -15,4 +15,33 @@
     SELECT * FROM students WHERE id = #{id}
   </select>
 
+  <select id = "findByStudentId">
+    SELECT * FROM students_courses WHERE student_id = #{studentId}
+  </select>
+
+  <!-- 受講生詳細情報の登録 -->
+  <insert id="registerStudent" keyProperty="id" useGeneratedKeys="true">
+    INSERT INTO students (name, age, kanaName, nickname, email, region, gender, remark, isdeleted) values (#{name}, #{age}, #{kanaName}, #{nickname}, #{email}, #{region}, #{gender}, #{remark}, false)
+  </insert>
+
+  <!-- 受講生コース情報の新規登録 -->
+  <insert id="registerStudentCourse" keyProperty="id" useGeneratedKeys="true">
+    INSERT INTO students_courses (student_id, course_name, start_date) values (#{studentId}, #{courseName}, NOW())
+  </insert>
+
+  <!-- 受講生情報の更新処理 -->
+  <update id="updateStudent">
+    UPDATE students SET name = #{name}, age = #{age}, kanaName = #{kanaName}, nickname = #{nickname}, email = #{email}, region = #{region}, gender = #{gender}, remark = #{remark}  WHERE id = #{id}
+  </update>
+
+  <!-- 受講生コース情報の更新処理 -->
+  <update id="updateStudentCourses">
+    UPDATE students_courses SET course_name = #{courseName} WHERE student_id = #{studentId}
+  </update>
+
+  <!-- 受講生情報の論理削除 -->
+  <update id="updateIsDeleted">
+    UPDATE students SET isdeleted = #{isdeleted} WHERE id = #{id}
+  </update>
+
 </mapper>
