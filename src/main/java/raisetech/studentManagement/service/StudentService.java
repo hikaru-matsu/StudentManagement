@@ -1,5 +1,6 @@
 package raisetech.studentManagement.service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class StudentService {
    */
   private void initStudentsCourse(StudentCourse studentCourse, Student student) {
     studentCourse.setStudentId(student.getId());
-    studentCourse.setStartDate(new Date());
+    studentCourse.setStartDate(LocalDate.now());
   }
 
   public StudentDetail findDetailById(long id) {

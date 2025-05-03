@@ -1,5 +1,6 @@
 package raisetech.studentManagement.data;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,21 +9,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Schema(description = "受講生情報")
 @Getter
 @Setter
 @NoArgsConstructor
 public class Student {
+  @Schema(description = "ユーザーID", required = true)
   @NotNull
   private Integer id;
+  @Schema(description = "ユーザー名", required = true)
   private String name;
+  @Schema(description = "年齢", minimum = "18")
   @Min(18)
   private Integer age;
+  @Schema(description = "カナ名", required = true)
   private String kanaName;
+  @Schema(description = "ニックネーム")
   private String nickname;
+  @Schema(description = "メールアドレス", required = true)
   @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")
   private String email;
+  @Schema(description = "住所")
   private String region;
+  @Schema(description = "性別")
   private String gender;
+  @Schema(description = "備考" )
   private String remark;
   private Boolean isdeleted;
 }
