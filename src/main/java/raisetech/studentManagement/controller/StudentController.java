@@ -62,6 +62,7 @@ public class StudentController {
    */
   @Tag(name = "受講生更新")
   @Operation(summary = "受講生更新", description = "受講生の情報を更新します。")
+  @Validated
   @PutMapping("/updateStudent/{id}")
   public ResponseEntity<String> updateStudent(@RequestBody @Valid StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
@@ -76,6 +77,7 @@ public class StudentController {
    */
   @Tag(name = "受講生新規登録")
   @Operation(summary = "受講生登録", description = "受講生を登録します")
+  @Validated
   @PostMapping("/registerStudent")
   public ResponseEntity<String> registerStudent(@RequestBody @Valid StudentDetail studentDetail) {
     service.registerStudent(studentDetail);

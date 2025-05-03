@@ -3,6 +3,7 @@ package raisetech.studentManagement.data;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class Student {
   @NotNull
   private Integer id;
   @Schema(description = "ユーザー名", required = true)
+  @NotBlank(message = "ユーザー名は必須です")
   private String name;
   @Schema(description = "年齢", minimum = "18")
   @Min(18)
@@ -27,6 +29,7 @@ public class Student {
   @Schema(description = "ニックネーム")
   private String nickname;
   @Schema(description = "メールアドレス", required = true)
+  @NotBlank(message = "メールアドレスは必須です。")
   @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")
   private String email;
   @Schema(description = "住所")
