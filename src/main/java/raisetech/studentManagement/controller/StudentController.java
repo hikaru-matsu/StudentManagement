@@ -28,7 +28,6 @@ import raisetech.studentManagement.service.StudentService;
 public class StudentController {
 
   private StudentService service;
-  private StudentConverter converter;
 
   @Autowired
   public StudentController(StudentService service) {
