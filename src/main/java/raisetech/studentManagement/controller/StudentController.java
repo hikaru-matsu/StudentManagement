@@ -94,5 +94,4 @@ public class StudentController {
       service.delete(id);
       return ResponseEntity.ok("削除が成功しました");
   }
-
 }
