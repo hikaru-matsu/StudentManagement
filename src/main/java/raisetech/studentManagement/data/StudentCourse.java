@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,5 +25,4 @@ public class StudentCourse {
   private LocalDate startDate;
   @Schema(description = "受講終了日")
   private LocalDate endDate;
-
 }
