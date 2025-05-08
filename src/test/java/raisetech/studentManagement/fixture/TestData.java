@@ -28,18 +28,12 @@ public class TestData {
         99,
         99,
         "テストコース",
-        LocalDateTime.of(5555,5,5,10,0),
-        LocalDateTime.of(9999,9,9,10,0)
+        LocalDate.of(5555,5,5),
+        LocalDate.of(9999,9,9)
     );
   }
 
   public static StudentDetail testStudentDetail() {
-    /*
-    StudentDetail studentDetail = new StudentDetail();
-    studentDetail.setStudent(testStudent());
-    studentDetail.setStudentCourseList(List.of(testStudentCourse()));
-    return studentDetail;
-     */
     return new StudentDetail(
         testStudent(),
         List.of(testStudentCourse())

@@ -15,14 +15,10 @@ import raisetech.studentManagement.data.StudentCourse;
 @Schema(description = "受講生詳細")
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class StudentDetail {
   @Valid
   private Student student;
   private List<StudentCourse> studentCourseList;
-
-  public StudentDetail(Student student, List<StudentCourse>studentCourseList) {
-    this.student = student;
-    this.studentCourseList = studentCourseList;
-  }
 }

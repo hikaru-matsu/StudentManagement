@@ -27,12 +27,4 @@ public class StudentCourse {
   @Schema(description = "受講終了日")
   private LocalDate endDate;
 
-  public StudentCourse(Integer id, Integer studentId, String courseName, LocalDateTime startDate, LocalDateTime endDate) {
-    this.id = id;
-    this.studentId = studentId;
-    this.courseName = courseName;
-    this.startDate = LocalDate.from(startDate);
-    this.endDate = LocalDate.from(endDate);
-  }
-
 }
