@@ -7,9 +7,11 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Parameter;
 import java.util.List;
 import java.util.stream.Stream;
+import org.apache.tomcat.util.http.parser.MediaType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -89,8 +91,10 @@ class StudentControllerTest {
   @ParameterizedTest
   @MethodSource("studentDetailProvider")
   void 受講生詳細の新規登録処理が実行できていること(StudentDetail studentDetail) throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent"))
-        .andExpect(status().isOk());
+    ObjectMapper objectMapper = new ObjectMapper();
+    String json = objectMapper.writeValueAsString(studentDetail);
+    mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent")).content(json)
+        .andExpect(status().isOk()).andExpect(content().string("登録処理が成功しました。"));
     verify(service, times(1)).registerStudent((studentDetail));
   }
 }
