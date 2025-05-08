@@ -38,5 +38,4 @@ public class TestData {
     studentDetail.setStudentCourseList(List.of(testStudentCourse()));
     return studentDetail;
   }
-
 }

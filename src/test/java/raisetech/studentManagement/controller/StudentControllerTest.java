@@ -7,10 +7,13 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -41,6 +44,16 @@ class StudentControllerTest {
 
   @MockitoBean
   private StudentService service;
+
+  public static Stream<Arguments> studentDetailProvider() {
+    Student student = TestData.testStudent();
+    StudentCourse studentCourse = TestData.testStudentCourse();
+    StudentDetail studentDetail = TestData.testStudentDetail();
+
+    studentDetail.setStudent(student);
+    studentDetail.setStudentCourseList(List.of(studentCourse));
+    return Stream.of(Arguments.of(studentDetail));
+  }
 
   @BeforeEach
   void setUp() {
@@ -73,5 +86,11 @@ class StudentControllerTest {
     verify(service, times(1)).findDetailById(id);
   }
 
-
+  @ParameterizedTest
+  @MethodSource("studentDetailProvider")
+  void 受講生詳細の新規登録処理が実行できていること(StudentDetail studentDetail) throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent"))
+        .andExpect(status().isOk());
+    verify(service, times(1)).registerStudent((studentDetail));
+  }
 }
