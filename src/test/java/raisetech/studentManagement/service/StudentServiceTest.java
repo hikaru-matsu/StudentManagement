@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static raisetech.studentManagement.fixture.TestData.testStudent;
 import static raisetech.studentManagement.fixture.TestData.testStudentCourse;
 
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ import raisetech.studentManagement.fixture.TestData;
 @ExtendWith(MockitoExtension.class)
 class StudentServiceTest {
 
+  Student student;
+  StudentCourse studentCourse;
+  StudentDetail studentDetail;
+
   @Mock
   private StudentRepository repository;
   @Mock
@@ -36,12 +41,17 @@ class StudentServiceTest {
   @BeforeEach
   void before() {
     sut = new StudentService(repository, converter);
+    student = testStudent();
+    studentCourse = TestData.testStudentCourse();
+    studentDetail = TestData.testStudentDetail();
+    studentDetail.setStudent(student);
+    studentDetail.setStudentCourseList(List.of(studentCourse));
   }
 
   @Test
   void 受講生詳細の一覧検索機能＿リポジトリとコンバーターの処理が適切に呼び出せていること() {
-    List<Student> studentList = List.of(TestData.testStudent());
-    List<StudentCourse> studentCourseList = List.of(testStudentCourse());
+    List<StudentCourse> studentCourseList = List.of(studentCourse);
+    List<Student> studentList = List.of(student);
     when(repository.search()).thenReturn(studentList);
     when(repository.courseSearch()).thenReturn(studentCourseList);
 
@@ -54,26 +64,19 @@ class StudentServiceTest {
 
   @Test
   void 受講生詳細の単一検索機能＿リポジトリの処理が適切に呼び出せていること() {
-    Student student = new Student();
-    List<StudentCourse> studentCourseList = List.of(testStudentCourse());
-    student.setId(1);
+    List<StudentCourse> studentCourseList = List.of(studentCourse);
+    student.setId(99);
+    when(repository.findById(99)).thenReturn(student);
+    when(repository.findByStudentId(99)).thenReturn(studentCourseList);
 
-    when(repository.findById(1)).thenReturn(student);
-    when(repository.findByStudentId(1)).thenReturn(studentCourseList);
-    sut.findDetailById(1);
+    sut.findDetailById(99);
 
-    verify(repository, times(1)).findById(1);
-    verify(repository, times(1)).findByStudentId(1);
+    verify(repository, times(1)).findById(99);
+    verify(repository, times(1)).findByStudentId(99);
   }
 
   @Test
   void 受講生詳細の新規登録機能＿リポジトリの処理が適切に呼び出せていること() {
-    Student student = TestData.testStudent();
-    StudentCourse studentCourse = TestData.testStudentCourse();
-    StudentDetail studentDetail = StudentDetail.builder()
-                                                .student(student)
-                                                .studentCourseList(List.of(studentCourse))
-                                                .build();
     sut.registerStudent(studentDetail);
 
     verify(repository, times(1)).registerStudent(student);
@@ -82,10 +85,6 @@ class StudentServiceTest {
 
   @Test
   void 受講生詳細の更新処理機能＿リポジトリの処理が適切に呼び出せていること() {
-    Student student = TestData.testStudent();
-    StudentCourse studentCourse = TestData.testStudentCourse();
-    StudentDetail studentDetail = StudentDetail.builder().student(student).studentCourseList(List.of(studentCourse)).build();
-
     sut.updateStudent(studentDetail);
 
     verify(repository, times(1)).updateStudent(student);
@@ -94,7 +93,6 @@ class StudentServiceTest {
 
   @Test
   void 受講生詳細の論理削除機能＿リポジトリの処理が適切に呼び出せていること(){
-    Student student = TestData.testStudent();
     long id = student.getId();
     when(repository.findById(id)).thenReturn(student);
 

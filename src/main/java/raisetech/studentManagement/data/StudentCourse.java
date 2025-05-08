@@ -2,6 +2,7 @@ package raisetech.studentManagement.data;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,6 @@ import lombok.Setter;
 @Schema(description = "受講生コース情報")
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentCourse {
@@ -26,4 +26,13 @@ public class StudentCourse {
   private LocalDate startDate;
   @Schema(description = "受講終了日")
   private LocalDate endDate;
+
+  public StudentCourse(Integer id, Integer studentId, String courseName, LocalDateTime startDate, LocalDateTime endDate) {
+    this.id = id;
+    this.studentId = studentId;
+    this.courseName = courseName;
+    this.startDate = LocalDate.from(startDate);
+    this.endDate = LocalDate.from(endDate);
+  }
+
 }
