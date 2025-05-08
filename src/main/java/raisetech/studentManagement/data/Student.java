@@ -15,8 +15,6 @@ import lombok.Setter;
 @Schema(description = "受講生情報")
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 public class Student {
   @Schema(description = "ユーザーID", required = true)
