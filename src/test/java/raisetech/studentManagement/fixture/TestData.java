@@ -7,37 +7,36 @@ import raisetech.studentManagement.data.StudentCourse;
 import raisetech.studentManagement.domain.StudentDetail;
 
 public class TestData {
-  private TestData() {}
 
   public static Student testStudent() {
-    return Student.builder()
-        .id(99)
-        .name("テスト太郎")
-        .kanaName("テストタロウ")
-        .nickname("テストくん")
-        .email("Test@example.com")
-        .region("どこか")
-        .age(100)
-        .gender("不明")
-        .remark("これはテスト専用データです。")
-        .build();
+    Student student = new Student();
+    student.setId(99);
+    student.setName("テスト太郎");
+    student.setKanaName("テストタロウ");
+    student.setNickname("テスト君");
+    student.setEmail("Test@example.com");
+    student.setRegion("どこか");
+    student.setAge(100);
+    student.setGender("不明");
+    student.setRemark("これはテスト専用のデータです。");
+    return student;
   }
 
   public static StudentCourse testStudentCourse() {
-    return StudentCourse.builder()
-        .id(99)
-        .studentId(99)
-        .courseName("テストコース")
-        .startDate(LocalDate.of(5555, 5, 5))
-        .endDate(LocalDate.of(7777, 7, 7))
-        .build();
+    StudentCourse studentCourse = new StudentCourse();
+    studentCourse.setId(99);
+    studentCourse.setStudentId(99);
+    studentCourse.setCourseName("テストコース");
+    studentCourse.setStartDate(LocalDate.of(5555, 5, 5));
+    studentCourse.setEndDate(LocalDate.of(9999,9,9));
+    return studentCourse;
   }
 
   public static StudentDetail testStudentDetail() {
-    return StudentDetail.builder()
-        .student(testStudent())
-        .studentCourseList(List.of(testStudentCourse()))
-        .build();
+    StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudent(testStudent());
+    studentDetail.setStudentCourseList(List.of(testStudentCourse()));
+    return studentDetail;
   }
 
 }
