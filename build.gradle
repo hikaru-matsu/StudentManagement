@@ -39,6 +39,7 @@ dependencies {
 
 	//Apache commons lang
 	implementation 'org.apache.commons:commons-lang3:3.17.0'
+
 	//lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

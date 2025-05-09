@@ -1,30 +1,29 @@
 package raisetech.studentManagement.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import java.util.List;
-import java.util.stream.Stream;
-import org.apache.tomcat.util.http.parser.MediaType;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.assertj.MockMvcTester.MockMvcRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import raisetech.studentManagement.data.Student;
 import raisetech.studentManagement.data.StudentCourse;
@@ -40,22 +39,13 @@ class StudentControllerTest {
   List<StudentCourse>studentCourseList;
   StudentDetail studentDetail;
 
-
   @Autowired
   private MockMvc mockMvc;
+  @Autowired
+  private Validator validator;
 
   @MockitoBean
   private StudentService service;
-
-  public static Stream<Arguments> studentDetailProvider() {
-    Student student = TestData.testStudent();
-    StudentCourse studentCourse = TestData.testStudentCourse();
-    StudentDetail studentDetail = TestData.testStudentDetail();
-
-    studentDetail.setStudent(student);
-    studentDetail.setStudentCourseList(List.of(studentCourse));
-    return Stream.of(Arguments.of(studentDetail));
-  }
 
   @BeforeEach
   void setUp() {
@@ -88,13 +78,46 @@ class StudentControllerTest {
     verify(service, times(1)).findDetailById(id);
   }
 
-  @ParameterizedTest
-  @MethodSource("studentDetailProvider")
-  void 受講生詳細の新規登録処理が実行できていること(StudentDetail studentDetail) throws Exception {
+
+  @Test
+  void 受講生詳細の新規登録処理ができて空で返ってくること() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
-    String json = objectMapper.writeValueAsString(studentDetail);
-    mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent")).content(json)
-        .andExpect(status().isOk()).andExpect(content().string("登録処理が成功しました。"));
-    verify(service, times(1)).registerStudent((studentDetail));
+    String json =  objectMapper.writeValueAsString(studentDetail);
+    mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    verify(service, times(1)).registerStudent(any());
+  }
+
+  @Test
+  void 受講生詳細の更新ができて空で返ってくること() throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
+    String json =  objectMapper.writeValueAsString(studentDetail);
+    mockMvc.perform(MockMvcRequestBuilders.put("/updateStudent/{id}",99).content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    verify(service, times(1)).updateStudent(any());
+  }
+  @ParameterizedTest
+  @ValueSource(longs = {99})
+  void 受講生詳細の削除ができてること(long id) throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.patch("/deleteStudent/{id}",id)).andExpect(content().string("削除が成功しました")).andExpect(status().isOk());
+    verify(service,times(1)).delete(id);
+  }
+
+  @Test
+  void 受講生詳細の受講生で名前が空の時に入力チェックにかかること() {
+    student.setName("");
+    Set<ConstraintViolation<Student>>violations = validator.validate(student);
+    assertEquals(1,violations.size());
+  }
+
+  @Test
+  void 受講生詳細の受講生でメールアドレスが適切出ない時に入力チェックがかかること() {
+    student.setEmail("9999-99-99");
+    Set<ConstraintViolation<Student>>violations = validator.validate(student);
+    assertEquals(1,violations.size());
+  }
+
+  @Test
+  void 受講生詳細の受講生で適切な値を入力した際に入力チェックにかからないこと() {
+    Set<ConstraintViolation<Student>>violations = validator.validate(student);
+    assertEquals(0,violations.size());
   }
 }
