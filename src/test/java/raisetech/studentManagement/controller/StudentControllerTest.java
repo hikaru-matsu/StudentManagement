@@ -63,7 +63,7 @@ class StudentControllerTest {
     when(service.searchStudentList()).thenReturn(studentDetailList);
     mockMvc.perform(MockMvcRequestBuilders.get("/studentList"))
         .andExpect(status().isOk())
-        .andExpect(content().json("[{\"student\":{\"id\":99,\"name\":\"テスト太郎\",\"age\":100,\"kanaName\":\"テストタロウ\",\"nickname\":\"テスト君\",\"email\":\"Test@example.com\",\"region\":\"どこか\",\"gender\":\"不明\",\"remark\":\"これはテスト専用のデータです。\",\"isdeleted\":null},\"studentCourseList\":[{\"id\":99,\"studentId\":99,\"courseName\":\"テストコース\",\"startDate\":\"5555-05-05\",\"endDate\":\"9999-09-09\"}]}]"));
+        .andExpect(content().json("[{\"student\":{\"id\":99,\"name\":\"テスト太郎\",\"age\":100,\"kanaName\":\"テストタロウ\",\"nickname\":\"テスト君\",\"email\":\"Test@example.com\",\"region\":\"どこか\",\"gender\":\"不明\",\"remark\":\"これはテスト専用データです。\",\"isdeleted\":null},\"studentCourseList\":[{\"id\":99,\"studentId\":99,\"courseName\":\"テストコース\",\"startDate\":\"5555-05-05\",\"endDate\":\"9999-09-09\"}]}]"));
 
     verify(service, times(1)).searchStudentList();
   }
@@ -74,7 +74,7 @@ class StudentControllerTest {
     when(service.findDetailById(99)).thenReturn(studentDetail);
     mockMvc.perform(MockMvcRequestBuilders.get("/student/{id}", 99))
         .andExpect(status().isOk())
-        .andExpect(content().json("{\"student\":{\"id\":99,\"name\":\"テスト太郎\",\"age\":100,\"kanaName\":\"テストタロウ\",\"nickname\":\"テスト君\",\"email\":\"Test@example.com\",\"region\":\"どこか\",\"gender\":\"不明\",\"remark\":\"これはテスト専用のデータです。\",\"isdeleted\":null},\"studentCourseList\":[{\"id\":99,\"studentId\":99,\"courseName\":\"テストコース\",\"startDate\":\"5555-05-05\",\"endDate\":\"9999-09-09\"}]}"));
+        .andExpect(content().json("{\"student\":{\"id\":99,\"name\":\"テスト太郎\",\"age\":100,\"kanaName\":\"テストタロウ\",\"nickname\":\"テスト君\",\"email\":\"Test@example.com\",\"region\":\"どこか\",\"gender\":\"不明\",\"remark\":\"これはテスト専用データです。\",\"isdeleted\":null},\"studentCourseList\":[{\"id\":99,\"studentId\":99,\"courseName\":\"テストコース\",\"startDate\":\"5555-05-05\",\"endDate\":\"9999-09-09\"}]}q"));
     verify(service, times(1)).findDetailById(id);
   }
 
