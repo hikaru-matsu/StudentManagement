@@ -1,5 +1,6 @@
 package raisetech.studentManagement.fixture;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +20,7 @@ public class TestData {
         "どこか",
         100,
         "不明",
-        "これはテスト専用のデータです。"
+        "これはテスト専用データです。"
     );
   }
 
@@ -28,8 +29,8 @@ public class TestData {
         99,
         99,
         "テストコース",
-        LocalDate.of(5555,5,5),
-        LocalDate.of(9999,9,9)
+        LocalDate.of(5555, 5, 5),
+        LocalDate.of(9999, 9, 9)
     );
   }
 
@@ -39,5 +40,4 @@ public class TestData {
         List.of(testStudentCourse())
     );
   }
-
 }

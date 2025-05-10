@@ -1,7 +1,6 @@
 package raisetech.studentManagement.service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,7 @@ public class StudentService {
   }
 
   public List<StudentDetail> searchStudentList() {
-    List<Student>studentList = repository.search();
+    List<Student> studentList = repository.search();
     List<StudentCourse> studentsCoursesList = repository.courseSearch();
     return converter.convertStudentDetails(studentList, studentsCoursesList);
   }
@@ -37,7 +36,7 @@ public class StudentService {
     Student student = studentDetail.getStudent();
 
     repository.registerStudent(student);
-    List<StudentCourse>studentsCourses = studentDetail.getStudentCourseList();
+    List<StudentCourse> studentsCourses = studentDetail.getStudentCourseList();
     studentsCourses.forEach(studentCourse -> {
       initStudentsCourse(studentCourse, student);
       repository.registerStudentCourse(studentCourse);
@@ -57,15 +56,15 @@ public class StudentService {
 
   public StudentDetail findDetailById(long id) {
     Student student = repository.findById(id);
-    List<StudentCourse>studentCourseList = repository.findByStudentId(id);
+    List<StudentCourse> studentCourseList = repository.findByStudentId(id);
     return new StudentDetail(student, studentCourseList);
   }
 
   public void updateStudent(StudentDetail studentDetail) {
     Student student = studentDetail.getStudent();
     repository.updateStudent(student);
-    List<StudentCourse>studentCourse = studentDetail.getStudentCourseList();
-    for(StudentCourse studentCourses : studentCourse) {
+    List<StudentCourse> studentCourse = studentDetail.getStudentCourseList();
+    for (StudentCourse studentCourses : studentCourse) {
       repository.updateStudentCourses(studentCourses);
     }
   }

@@ -6,32 +6,37 @@
 <mapper namespace="raisetech.studentManagement.repository.StudentRepository">
 
   <!-- 受講生の全件検索 -->
-  <select id="search" resultType ="raisetech.studentManagement.data.Student">
+  <select id="search" resultType="raisetech.studentManagement.data.Student">
     SELECT * FROM students WHERE isdeleted = false
   </select>
 
   <!-- 受講生の単一検索 -->
-  <select id="findById" resultType ="raisetech.studentManagement.data.Student">
+  <select id="findById" resultType="raisetech.studentManagement.data.Student">
     SELECT * FROM students WHERE id = #{id}
   </select>
 
-  <select id = "findByStudentId">
+  <select id="findByStudentId">
     SELECT * FROM students_courses WHERE student_id = #{studentId}
   </select>
 
   <!-- 受講生詳細情報の登録 -->
   <insert id="registerStudent" keyProperty="id" useGeneratedKeys="true">
-    INSERT INTO students (name, age, kanaName, nickname, email, region, gender, remark, isdeleted) values (#{name}, #{age}, #{kanaName}, #{nickname}, #{email}, #{region}, #{gender}, #{remark}, false)
+    INSERT INTO students (name, age, kanaName, nickname, email, region, gender, remark, isdeleted)
+    values (#{name}, #{age}, #{kanaName}, #{nickname}, #{email}, #{region}, #{gender}, #{remark},
+    false)
   </insert>
 
   <!-- 受講生コース情報の新規登録 -->
   <insert id="registerStudentCourse" keyProperty="id" useGeneratedKeys="true">
-    INSERT INTO students_courses (student_id, course_name, start_date) values (#{studentId}, #{courseName}, NOW())
+    INSERT INTO students_courses (student_id, course_name, start_date) values (#{studentId},
+    #{courseName}, NOW())
   </insert>
 
   <!-- 受講生情報の更新処理 -->
   <update id="updateStudent">
-    UPDATE students SET name = #{name}, age = #{age}, kanaName = #{kanaName}, nickname = #{nickname}, email = #{email}, region = #{region}, gender = #{gender}, remark = #{remark}  WHERE id = #{id}
+    UPDATE students SET name = #{name}, age = #{age}, kanaName = #{kanaName}, nickname =
+    #{nickname}, email = #{email}, region = #{region}, gender = #{gender}, remark = #{remark} WHERE
+    id = #{id}
   </update>
 
   <!-- 受講生コース情報の更新処理 -->
