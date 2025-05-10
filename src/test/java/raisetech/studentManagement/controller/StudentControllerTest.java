@@ -1,6 +1,7 @@
 package raisetech.studentManagement.controller;
 
 
+import static org.apache.commons.lang3.ArrayUtils.toArray;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -13,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,9 +63,11 @@ class StudentControllerTest {
   void 受講生詳細の一覧検索が実行できて1件のデータが入ったリストが返ってくる() throws Exception {
     List<StudentDetail>studentDetailList = List.of(studentDetail);
     when(service.searchStudentList()).thenReturn(studentDetailList);
+    ObjectMapper objectMapper = new ObjectMapper();
+    String json = "[" + objectMapper.writeValueAsString(studentDetail) + "]";
     mockMvc.perform(MockMvcRequestBuilders.get("/studentList"))
         .andExpect(status().isOk())
-        .andExpect(content().json("[{\"student\":{\"id\":99,\"name\":\"テスト太郎\",\"age\":100,\"kanaName\":\"テストタロウ\",\"nickname\":\"テスト君\",\"email\":\"Test@example.com\",\"region\":\"どこか\",\"gender\":\"不明\",\"remark\":\"これはテスト専用データです。\",\"isdeleted\":null},\"studentCourseList\":[{\"id\":99,\"studentId\":99,\"courseName\":\"テストコース\",\"startDate\":\"5555-05-05\",\"endDate\":\"9999-09-09\"}]}]"));
+        .andExpect(content().json(json));
 
     verify(service, times(1)).searchStudentList();
   }
@@ -72,32 +76,36 @@ class StudentControllerTest {
   @ValueSource(longs = {99})
   void 受講生詳細の単一検索が実行できて一件のデータが返ってくる(long id) throws Exception {
     when(service.findDetailById(99)).thenReturn(studentDetail);
+    ObjectMapper objectMapper = new ObjectMapper();
+    String json = objectMapper.writeValueAsString(studentDetail);
     mockMvc.perform(MockMvcRequestBuilders.get("/student/{id}", 99))
         .andExpect(status().isOk())
-        .andExpect(content().json("{\"student\":{\"id\":99,\"name\":\"テスト太郎\",\"age\":100,\"kanaName\":\"テストタロウ\",\"nickname\":\"テスト君\",\"email\":\"Test@example.com\",\"region\":\"どこか\",\"gender\":\"不明\",\"remark\":\"これはテスト専用データです。\",\"isdeleted\":null},\"studentCourseList\":[{\"id\":99,\"studentId\":99,\"courseName\":\"テストコース\",\"startDate\":\"5555-05-05\",\"endDate\":\"9999-09-09\"}]}q"));
+        .andExpect(content().json(json));
     verify(service, times(1)).findDetailById(id);
   }
 
-
   @Test
-  void 受講生詳細の新規登録処理ができて空で返ってくること() throws Exception {
+  void 受講生詳細の新規登録処理が実行できること() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
     String json =  objectMapper.writeValueAsString(studentDetail);
-    mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent").content(json).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
     verify(service, times(1)).registerStudent(any());
   }
 
   @Test
-  void 受講生詳細の更新ができて空で返ってくること() throws Exception {
+  void 受講生詳細の更新が実行できていること() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
     String json =  objectMapper.writeValueAsString(studentDetail);
-    mockMvc.perform(MockMvcRequestBuilders.put("/updateStudent/{id}",99).content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    mockMvc.perform(MockMvcRequestBuilders.put("/updateStudent/{id}",99).content(json).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
     verify(service, times(1)).updateStudent(any());
   }
   @ParameterizedTest
   @ValueSource(longs = {99})
-  void 受講生詳細の削除ができてること(long id) throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.patch("/deleteStudent/{id}",id)).andExpect(content().string("削除が成功しました")).andExpect(status().isOk());
+  void 受講生詳細の削除が実行できてること(long id) throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.patch("/deleteStudent/{id}",id)).andExpect(content().string("削除が成功しました"))
+        .andExpect(status().isOk());
     verify(service,times(1)).delete(id);
   }
 
