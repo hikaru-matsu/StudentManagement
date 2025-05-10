@@ -6,38 +6,38 @@
 </head>
 <body>
 <form th:action="@{registerStudent}" method="post">
-  <table border = "1">
+  <table border="1">
     <tr>
       <th>名前：</th>
-      <td><input type ="text" th:field="${studentDetail.student.name}"></td>
+      <td><input type="text" th:field="${studentDetail.student.name}"></td>
     </tr>
     <tr>
       <th>年齢：</th>
-      <td><input type ="text" th:field="${studentDetail.student.age}"></td>
+      <td><input type="text" th:field="${studentDetail.student.age}"></td>
     </tr>
     <tr>
       <th>フリガナ：</th>
-      <td><input type ="text" th:field="${studentDetail.student.kanaName}"></td>
+      <td><input type="text" th:field="${studentDetail.student.kanaName}"></td>
     </tr>
     <tr>
       <th>ニックネーム：</th>
-      <td><input type ="text" th:field="${studentDetail.student.nickname}"></td>
+      <td><input type="text" th:field="${studentDetail.student.nickname}"></td>
     </tr>
     <tr>
       <th>メール：</th>
-      <td><input type ="text" th:field="${studentDetail.student.email}"></td>
+      <td><input type="text" th:field="${studentDetail.student.email}"></td>
     </tr>
     <tr>
       <th>地域：</th>
-      <td><input type ="text" th:field="${studentDetail.student.region}"></td>
+      <td><input type="text" th:field="${studentDetail.student.region}"></td>
     </tr>
     <tr>
       <th>性別：</th>
-      <td><input type ="text" th:field="${studentDetail.student.gender}"></td>
+      <td><input type="text" th:field="${studentDetail.student.gender}"></td>
     </tr>
     <tr>
       <th>備考：</th>
-      <td><input type ="text" th:field="${studentDetail.student.remark}"></td>
+      <td><input type="text" th:field="${studentDetail.student.remark}"></td>
     </tr>
   </table>
   <button type="submit">登録</button>

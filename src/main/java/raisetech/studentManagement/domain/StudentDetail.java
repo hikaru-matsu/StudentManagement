@@ -1,6 +1,5 @@
 package raisetech.studentManagement.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -19,6 +18,7 @@ import raisetech.studentManagement.data.StudentCourse;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class StudentDetail {
+
   @Valid
   private Student student;
   private List<StudentCourse> studentCourseList;

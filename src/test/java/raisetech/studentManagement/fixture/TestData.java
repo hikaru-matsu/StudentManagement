@@ -1,7 +1,6 @@
 package raisetech.studentManagement.fixture;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.util.List;
 import raisetech.studentManagement.data.Student;
@@ -9,6 +8,7 @@ import raisetech.studentManagement.data.StudentCourse;
 import raisetech.studentManagement.domain.StudentDetail;
 
 public class TestData {
+
   public static Student testStudent() {
     return new Student(
         99,

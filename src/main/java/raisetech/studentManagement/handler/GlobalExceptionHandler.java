@@ -1,8 +1,6 @@
 package raisetech.studentManagement.handler;
 
-import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,9 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<String> handleAllExceptions(MethodArgumentNotValidException ex){
+  public ResponseEntity<String> handleAllExceptions(MethodArgumentNotValidException ex) {
     List<FieldError> errors = ex.getBindingResult().getFieldErrors();
-    if(!errors.isEmpty()) {
+    if (!errors.isEmpty()) {
       return ResponseEntity.badRequest().body(errors.get(0).getDefaultMessage());
     }
     return ResponseEntity.badRequest().body("入力内容に誤りがあります。");

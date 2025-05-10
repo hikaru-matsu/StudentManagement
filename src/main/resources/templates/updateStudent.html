@@ -5,62 +5,64 @@
   <title>受講生情報更新</title>
 </head>
 <body>
-<table border = "1">
-    <form th:action="@{/updateStudent/{id}(id=${studentDetail.student.id})}" th:object="${studentDetail}" method="post">
-      <input type="hidden" th:field="*{student.id}" />
-      <tr>
-        <td>
-          <label>名前：</label>
-          <input type="text" th:field="*{student.name}">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label>年齢</label>
-          <input type="text" th:field="*{student.age}">
-        </td>
-      </tr>
-      <tr>
-        <<td>
+<table border="1">
+  <form th:action="@{/updateStudent/{id}(id=${studentDetail.student.id})}"
+        th:object="${studentDetail}" method="post">
+    <input type="hidden" th:field="*{student.id}"/>
+    <tr>
+      <td>
+        <label>名前：</label>
+        <input type="text" th:field="*{student.name}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>年齢</label>
+        <input type="text" th:field="*{student.age}">
+      </td>
+    </tr>
+    <tr>
+      <
+      <td>
         <label>フリガナ：</label>
         <input type="text" th:field="*{student.kanaName}">
       </td>
-      </tr>
-      <tr>
-        <td>
-          <label>ニックネーム：</label>
-          <input type="text" th:field="*{student.nickname}">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label>メール：</label>
-          <input type="text" th:field="*{student.email}">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label>地域：</label>
-          <input type="text" th:field="*{student.region}">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label>性別：</label>
-          <input type="text" th:field="*{student.gender}">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label>備考：</label>
-          <input type="text" th:field="*{student.remark}">
-        </td>
-      </tr>
-      <tr>
-        <td><input type="submit" value="更新"></td>
-      </tr>
+    </tr>
+    <tr>
+      <td>
+        <label>ニックネーム：</label>
+        <input type="text" th:field="*{student.nickname}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>メール：</label>
+        <input type="text" th:field="*{student.email}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>地域：</label>
+        <input type="text" th:field="*{student.region}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>性別：</label>
+        <input type="text" th:field="*{student.gender}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>備考：</label>
+        <input type="text" th:field="*{student.remark}">
+      </td>
+    </tr>
+    <tr>
+      <td><input type="submit" value="更新"></td>
+    </tr>
 
-    </form>
+  </form>
 </table>
 </body>
 </html>

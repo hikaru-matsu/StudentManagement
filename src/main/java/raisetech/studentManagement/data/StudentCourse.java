@@ -18,6 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentCourse {
+
   @Schema(description = "受講コースID", required = true)
   private Integer id;
   @Schema(description = "受講生ID", required = true)
