@@ -15,7 +15,6 @@ import raisetech.studentManagement.data.StudentCourse;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 public class StudentDetail {
 
   @Valid
