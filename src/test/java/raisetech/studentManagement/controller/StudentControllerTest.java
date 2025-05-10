@@ -1,7 +1,6 @@
 package raisetech.studentManagement.controller;
 
 
-import static org.apache.commons.lang3.ArrayUtils.toArray;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -10,11 +9,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +35,7 @@ class StudentControllerTest {
 
   Student student;
   StudentCourse studentCourse;
-  List<StudentCourse>studentCourseList;
+  List<StudentCourse> studentCourseList;
   StudentDetail studentDetail;
 
   @Autowired
@@ -61,7 +58,7 @@ class StudentControllerTest {
 
   @Test
   void 受講生詳細の一覧検索が実行できて1件のデータが入ったリストが返ってくる() throws Exception {
-    List<StudentDetail>studentDetailList = List.of(studentDetail);
+    List<StudentDetail> studentDetailList = List.of(studentDetail);
     when(service.searchStudentList()).thenReturn(studentDetailList);
     ObjectMapper objectMapper = new ObjectMapper();
     String json = "[" + objectMapper.writeValueAsString(studentDetail) + "]";
@@ -87,8 +84,9 @@ class StudentControllerTest {
   @Test
   void 受講生詳細の新規登録処理が実行できること() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
-    String json =  objectMapper.writeValueAsString(studentDetail);
-    mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent").content(json).contentType(MediaType.APPLICATION_JSON))
+    String json = objectMapper.writeValueAsString(studentDetail);
+    mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent").content(json)
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
     verify(service, times(1)).registerStudent(any());
   }
@@ -96,36 +94,39 @@ class StudentControllerTest {
   @Test
   void 受講生詳細の更新が実行できていること() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
-    String json =  objectMapper.writeValueAsString(studentDetail);
-    mockMvc.perform(MockMvcRequestBuilders.put("/updateStudent/{id}",99).content(json).contentType(MediaType.APPLICATION_JSON))
+    String json = objectMapper.writeValueAsString(studentDetail);
+    mockMvc.perform(MockMvcRequestBuilders.put("/updateStudent/{id}", 99).content(json)
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
     verify(service, times(1)).updateStudent(any());
   }
+
   @ParameterizedTest
   @ValueSource(longs = {99})
   void 受講生詳細の削除が実行できてること(long id) throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.patch("/deleteStudent/{id}",id)).andExpect(content().string("削除が成功しました"))
+    mockMvc.perform(MockMvcRequestBuilders.patch("/deleteStudent/{id}", id))
+        .andExpect(content().string("削除が成功しました"))
         .andExpect(status().isOk());
-    verify(service,times(1)).delete(id);
+    verify(service, times(1)).delete(id);
   }
 
   @Test
   void 受講生詳細の受講生で名前が空の時に入力チェックにかかること() {
     student.setName("");
-    Set<ConstraintViolation<Student>>violations = validator.validate(student);
-    assertEquals(1,violations.size());
+    Set<ConstraintViolation<Student>> violations = validator.validate(student);
+    assertEquals(1, violations.size());
   }
 
   @Test
   void 受講生詳細の受講生でメールアドレスが適切出ない時に入力チェックがかかること() {
     student.setEmail("9999-99-99");
-    Set<ConstraintViolation<Student>>violations = validator.validate(student);
-    assertEquals(1,violations.size());
+    Set<ConstraintViolation<Student>> violations = validator.validate(student);
+    assertEquals(1, violations.size());
   }
 
   @Test
   void 受講生詳細の受講生で適切な値を入力した際に入力チェックにかからないこと() {
-    Set<ConstraintViolation<Student>>violations = validator.validate(student);
-    assertEquals(0,violations.size());
+    Set<ConstraintViolation<Student>> violations = validator.validate(student);
+    assertEquals(0, violations.size());
   }
 }
