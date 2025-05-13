@@ -1,8 +1,8 @@
-Insert Into students(id, name, kanaName, nickname, email, region, age, gender)
-Values(1, '佐藤かずま', 'サトウカズマ' , 'かずまさん', 'Kazuma@example.com', '日本', 19, '男性'),
-      (2, 'アクア', 'アクア' , '駄目神', 'Akua@example.com', '天界', 1000, '女性'),
-      (3, 'めぐみん', 'メグミン' , '頭のおかしな子', 'Megumin@example.com', '紅魔郷', 18, '女性'),
-      (4, 'ダクネス', 'ダクネス' , 'ララティーナ', 'Dakunes@exapmle.com', 'アクセル', 20, '女性');
+Insert Into students(id, name, kanaName, nickname, email, region, age, gender, isdeleted)
+Values(1, '佐藤かずま', 'サトウカズマ' , 'かずまさん', 'Kazuma@example.com', '日本', 19, '男性', false),
+      (2, 'アクア', 'アクア' , '駄目神', 'Akua@example.com', '天界', 1000, '女性', false),
+      (3, 'めぐみん', 'メグミン' , '頭のおかしな子', 'Megumin@example.com', '紅魔郷', 18, '女性', false),
+      (4, 'ダクネス', 'ダクネス' , 'ララティーナ', 'Dakunes@exapmle.com', 'アクセル', 20, '女性', false);
 
 Insert Into students_courses (id, student_id, course_name, start_date)
 Values(1, 1, '冒険者', '2016-05-10'),
