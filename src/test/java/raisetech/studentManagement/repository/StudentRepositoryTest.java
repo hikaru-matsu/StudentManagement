@@ -1,5 +1,6 @@
 package raisetech.studentManagement.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 import java.time.LocalDate;
@@ -61,13 +62,13 @@ class StudentRepositoryTest {
   @Test
   void 受講生の全件検索が実行できること() {
     List<Student> actual = sut.search();
-    sqlStudent.equals(actual);
+    assertThat(actual.equals(sqlStudent));
   }
 
   @Test
   void 受講生コース情報の全件検索が実行できること() {
     List<StudentCourse> actual = sut.courseSearch();
-    sqlStudentCourse.equals(actual);
+    assertThat(actual.equals(sqlStudentCourse));
   }
 
   @Test
@@ -78,7 +79,7 @@ class StudentRepositoryTest {
         new Student(5, "テスト太郎", "テストタロウ", "テスト君", "Test@example.com",
             "どこか", 100,
             "不明", "これはテスト専用データです。", false));
-    sqlStudent.equals(actual);
+    assertThat(actual.equals(sqlStudent));
   }
 
   @Test
@@ -87,7 +88,7 @@ class StudentRepositoryTest {
     List<StudentCourse> actual = sut.courseSearch();
     sqlStudentCourse.add(new StudentCourse(99, 99, "テストコース", LocalDate.of(5555, 5, 5),
         LocalDate.of(9999, 9, 9)));
-    sqlStudent.equals(actual);
+    assertThat(actual.equals(sqlStudentCourse));
   }
 
   @Test
@@ -112,8 +113,8 @@ class StudentRepositoryTest {
         new StudentCourse(4, 3, "アークウィザード", LocalDate.of(2016, 3, 31), null));
     List<Student> actualStudent = sut.search();
     List<StudentCourse> actualStudentCourse = sut.courseSearch();
-    studentList.equals(actualStudent);
-    studentCourseList.equals(actualStudentCourse);
+    assertThat(actualStudent.equals(studentList));
+    assertThat(actualStudentCourse.equals(studentCourseList));
   }
 
   @Test
@@ -127,7 +128,7 @@ class StudentRepositoryTest {
         new Student(5, "アップデートネーム", "テストタロウ", "テスト君", "Test@example.com",
             "どこか", 100,
             "不明", "これはテスト専用データです。", false));
-    sqlStudent.equals(actual);
+    assertThat(actual.equals(sqlStudent));
   }
 
   @Test
@@ -140,6 +141,6 @@ class StudentRepositoryTest {
     sqlStudentCourse.add(new StudentCourse(99, 99, "アップデートコース", LocalDate.of(5555, 5, 5),
         LocalDate.of(9999, 9, 9)));
     List<StudentCourse> actual = sut.courseSearch();
-    sqlStudentCourse.equals(actual);
+    assertThat(actual.equals(sqlStudentCourse));
   }
 }
