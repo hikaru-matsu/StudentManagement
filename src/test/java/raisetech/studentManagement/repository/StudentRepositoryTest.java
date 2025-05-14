@@ -1,6 +1,5 @@
 package raisetech.studentManagement.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 import java.time.LocalDate;
@@ -94,8 +93,27 @@ class StudentRepositoryTest {
   @Test
   void 受講生詳細の削除処理が実行できること() {
     sut.updateIsDeleted(4, true);
-    List<Student> actual = sut.search();
-    assertThat(actual.size()).isEqualTo(3);
+    List<Student> studentList = new ArrayList<>();
+    List<StudentCourse> studentCourseList = new ArrayList<>();
+    studentList.add(
+        new Student(1, "佐藤かずま", "サトウカズマ", "かずまさん", "Kazuma@example.com", "日本", 19,
+            "男性", "", false));
+    studentList.add(
+        new Student(2, "アクア", "アクア", "駄目神", "Akua@example.com", "天界", 1000, "女性", "",
+            false));
+    studentList.add(
+        new Student(3, "めぐみん", "メグミン", "頭のおかしな子", "Megumin@example.com", "紅魔郷",
+            18, "女性", "", false));
+    studentCourseList.add(new StudentCourse(1, 1, "冒険者", LocalDate.of(2016, 5, 10), null));
+    studentCourseList.add(new StudentCourse(2, 1, "引きニート", LocalDate.of(2014, 12, 24), null));
+    studentCourseList.add(
+        new StudentCourse(3, 2, "アークプリースト", LocalDate.of(2016, 5, 10), null));
+    studentCourseList.add(
+        new StudentCourse(4, 3, "アークウィザード", LocalDate.of(2016, 3, 31), null));
+    List<Student> actualStudent = sut.search();
+    List<StudentCourse> actualStudentCourse = sut.courseSearch();
+    studentList.equals(actualStudent);
+    studentCourseList.equals(actualStudentCourse);
   }
 
   @Test
