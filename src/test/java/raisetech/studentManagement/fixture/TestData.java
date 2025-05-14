@@ -2,7 +2,6 @@ package raisetech.studentManagement.fixture;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import raisetech.studentManagement.data.Student;
 import raisetech.studentManagement.data.StudentCourse;
@@ -20,7 +19,8 @@ public class TestData {
         "どこか",
         100,
         "不明",
-        "これはテスト専用データです。"
+        "これはテスト専用データです。",
+        false
     );
   }
 
