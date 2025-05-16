@@ -1,6 +1,6 @@
 package raisetech.studentManagement.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 import java.time.LocalDate;
@@ -62,40 +62,44 @@ class StudentRepositoryTest {
   @Test
   void 受講生の全件検索が実行できること() {
     List<Student> actual = sut.search();
-    assertThat(actual.equals(sqlStudent));
+    List<Student> expect = sqlStudent;
+    assertEquals(expect, actual);
   }
 
   @Test
   void 受講生コース情報の全件検索が実行できること() {
     List<StudentCourse> actual = sut.courseSearch();
-    assertThat(actual.equals(sqlStudentCourse));
+    List<StudentCourse> expect = sqlStudentCourse;
+    assertEquals(expect, actual);
   }
 
   @Test
   void 受講生の登録が実行できること() {
     sut.registerStudent(student);
     List<Student> actual = sut.search();
+    List<Student> expect = sqlStudent;
     sqlStudent.add(
         new Student(5, "テスト太郎", "テストタロウ", "テスト君", "Test@example.com",
             "どこか", 100,
             "不明", "これはテスト専用データです。", false));
-    assertThat(actual.equals(sqlStudent));
+
+    assertEquals(expect, actual);
   }
 
   @Test
   void 受講生コース情報の登録が実行できること() {
     sut.registerStudentCourse(studentCourse);
     List<StudentCourse> actual = sut.courseSearch();
-    sqlStudentCourse.add(new StudentCourse(99, 99, "テストコース", LocalDate.of(5555, 5, 5),
-        LocalDate.of(9999, 9, 9)));
-    assertThat(actual.equals(sqlStudentCourse));
+    List<StudentCourse> expect = sqlStudentCourse;
+    sqlStudentCourse.add(
+        new StudentCourse(6, 99, "テストコース", LocalDate.now(), null));
+    assertEquals(expect, actual);
   }
 
   @Test
-  void 受講生詳細の削除処理が実行できること() {
+  void 受講生情報の削除処理が実行できること() {
     sut.updateIsDeleted(4, true);
     List<Student> studentList = new ArrayList<>();
-    List<StudentCourse> studentCourseList = new ArrayList<>();
     studentList.add(
         new Student(1, "佐藤かずま", "サトウカズマ", "かずまさん", "Kazuma@example.com", "日本", 19,
             "男性", "", false));
@@ -105,16 +109,8 @@ class StudentRepositoryTest {
     studentList.add(
         new Student(3, "めぐみん", "メグミン", "頭のおかしな子", "Megumin@example.com", "紅魔郷",
             18, "女性", "", false));
-    studentCourseList.add(new StudentCourse(1, 1, "冒険者", LocalDate.of(2016, 5, 10), null));
-    studentCourseList.add(new StudentCourse(2, 1, "引きニート", LocalDate.of(2014, 12, 24), null));
-    studentCourseList.add(
-        new StudentCourse(3, 2, "アークプリースト", LocalDate.of(2016, 5, 10), null));
-    studentCourseList.add(
-        new StudentCourse(4, 3, "アークウィザード", LocalDate.of(2016, 3, 31), null));
     List<Student> actualStudent = sut.search();
-    List<StudentCourse> actualStudentCourse = sut.courseSearch();
-    assertThat(actualStudent.equals(studentList));
-    assertThat(actualStudentCourse.equals(studentCourseList));
+    assertEquals(studentList, actualStudent);
   }
 
   @Test
@@ -124,11 +120,12 @@ class StudentRepositoryTest {
     newStudent.setName("アップデートネーム");
     sut.updateStudent(newStudent);
     List<Student> actual = sut.search();
+    List<Student> expect = sqlStudent;
     sqlStudent.add(
         new Student(5, "アップデートネーム", "テストタロウ", "テスト君", "Test@example.com",
             "どこか", 100,
             "不明", "これはテスト専用データです。", false));
-    assertThat(actual.equals(sqlStudent));
+    assertEquals(expect, actual);
   }
 
   @Test
@@ -138,9 +135,9 @@ class StudentRepositoryTest {
     StudentCourse newStudentCourse = StudentCourseList.get(5);
     newStudentCourse.setCourseName("アップデートコース");
     sut.updateStudentCourses(newStudentCourse);
-    sqlStudentCourse.add(new StudentCourse(99, 99, "アップデートコース", LocalDate.of(5555, 5, 5),
-        LocalDate.of(9999, 9, 9)));
+    List<StudentCourse> expect = sqlStudentCourse;
+    sqlStudentCourse.add(new StudentCourse(6, 99, "アップデートコース", LocalDate.now(), null));
     List<StudentCourse> actual = sut.courseSearch();
-    assertThat(actual.equals(sqlStudentCourse));
+    assertEquals(expect, actual);
   }
 }
