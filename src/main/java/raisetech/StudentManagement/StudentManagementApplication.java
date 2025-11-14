@@ -14,8 +14,8 @@ public class StudentManagementApplication {
 		SpringApplication.run(StudentManagementApplication.class, args);
 	}
 
-	@GetMapping("/calculate")
-	public Integer calculate() {
-		return 1 + 2;
+	@GetMapping("/hello")
+	public String hello() {
+		return "hello";
 	}
 }
