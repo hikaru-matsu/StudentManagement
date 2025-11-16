@@ -1,61 +1,52 @@
 package raisetech.StudentManagement;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
 public class StudentManagementApplication {
 
-	private String name = "Matsubara Hikaru";
-	private Integer age = 26;
-	private Map<String, Integer> studentMap = new HashMap<>();
+	@Autowired
+	private StudentRepository repository;
 
 	public static void main(String[] args) {
 		//localhost:8080
 		SpringApplication.run(StudentManagementApplication.class, args);
 	}
 
-	@GetMapping("/studentInfo")
-	public String getName() {
-		return name + " : " + age + "歳";
+	@GetMapping("/student")
+	public String getStudent(@RequestParam String name) {
+		Student student = repository.searchByName(name);
+		return student.getName() + " " + student.getAge() + "歳";
 	}
 
-	@PostMapping("/studentInfo")
-	public void setName(String name, int age) {
-		this.name = name;
-		this.age = age;
+	@GetMapping("/studentList")
+	public List<Student> getStudentList() {
+		return repository.searchStudentList();
 	}
 
-	@GetMapping("/studentMap")
-	public List<String> getStudentMap() {
-		List<String> studentList = new ArrayList<>();
-		for(Map.Entry<String, Integer>studentMap :studentMap.entrySet()) {
-				String key = studentMap.getKey();
-				int value = studentMap.getValue();
-				studentList.add(key + " : " + value);
-		}
-		return studentList;
+	@PostMapping("/student")
+	public void registerStudent(String name, int age) {
+		repository.registerStudent(name, age);
 	}
 
-	@PostMapping("/studentMap")
-	public void setStudentMap(String name, Integer age) {
-		studentMap.put(name, age);
+	@PatchMapping("/student")
+	public void updateStudent(String name, int age){
+		repository.updateStudent(name, age);
 	}
 
-	@PostMapping("/updateStudentMap")
-	public void updateStudentMap(String name, int age) {
-		for(String key : studentMap.keySet()) {
-			if(key.equals(name)) {
-				studentMap.replace(key, age);
-				}
-			}
-		}
+	@DeleteMapping("/student")
+	public void deleteStudent(String name){
+		repository.deleteStudent(name);
 	}
+}
