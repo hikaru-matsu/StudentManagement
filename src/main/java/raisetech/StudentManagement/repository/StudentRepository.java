@@ -1,17 +1,16 @@
-package raisetech.StudentManagement;
-
+package raisetech.StudentManagement.repository;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import raisetech.StudentManagement.data.Student;
+import raisetech.StudentManagement.data.StudentCourse;
 
 @Mapper
 public interface StudentRepository {
-
   @Select("Select * From students")
   List<Student> search();
 
   @Select("Select * From students_courses")
   List<StudentCourse> searchStudentCourse();
-
 }
