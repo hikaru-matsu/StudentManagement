@@ -10,5 +10,5 @@ import raisetech.StudentManagement.data.StudentCourse;
 @Setter
 public class StudentDetail {
   private Student student;
-  private List<StudentCourse> studentCourses;
+  private List<StudentCourse> studentCourse;
 }

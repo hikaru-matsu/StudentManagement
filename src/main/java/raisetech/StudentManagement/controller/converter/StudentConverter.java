@@ -20,7 +20,7 @@ public class StudentConverter {
             studentDetail.setStudent(student);
             convertStudentCourse.add(studentCourses);
           });
-      studentDetail.setStudentCourses(convertStudentCourse);
+      studentDetail.setStudentCourse(convertStudentCourse);
       studentDetailList.add(studentDetail);
     });
     return studentDetailList;
