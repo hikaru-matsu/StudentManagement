@@ -33,7 +33,10 @@
       <td th:text="${studentDetail.student.area}"></td>
       <td th:text="${studentDetail.student.age}"></td>
       <td th:text="${studentDetail.student.gender}"></td>
-      <td th:text="${studentDetail.student.remark}">
+      <td th:text="${studentDetail.student.remark}"></td>
+    <tr th:each="studentCourse : ${studentDetail}">
+      <td th:text="${studentCourse.courseName}"></td>
+    </tr>
   </tbody>
 </table>
 </body>
