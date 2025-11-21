@@ -40,6 +40,10 @@
     <textarea type="text" id="remark" th:field="*{student.remark}"></textarea>
   </div>
   <div>
+    <label for="courseName">コース名:</label>
+    <input type="text" id="courseName" th:each="course : ${studentDetail.studentCourse}" th:text="${course.courseName}" required>
+  </div>
+  <div>
     <button type="submit">登録</button>
   </div>
 </form>

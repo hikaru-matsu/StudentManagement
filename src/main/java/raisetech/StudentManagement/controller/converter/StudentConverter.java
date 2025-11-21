@@ -13,6 +13,7 @@ public class StudentConverter {
     List<StudentDetail> studentDetailList = new ArrayList<>();
     studentList.forEach(student -> {
       StudentDetail studentDetail = new StudentDetail();
+      studentDetail.setStudent(student);
       List<StudentCourse> convertStudentCourse = new ArrayList<>();
       studentCourseList.stream()
           .filter(studentCourses -> student.getId() == studentCourses.getStudentId())

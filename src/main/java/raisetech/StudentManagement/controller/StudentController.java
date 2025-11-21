@@ -29,6 +29,7 @@ public class StudentController {
   public String getStudentList(Model model) {
     List<Student>studentList = service.searchStudentList();
     List<StudentCourse>studentCourseList = service.searchStudentCourseList();
+
     model.addAttribute("studentList", studentConveter.convertStudentDetail(studentList, studentCourseList));
     return "studentList";
    }
