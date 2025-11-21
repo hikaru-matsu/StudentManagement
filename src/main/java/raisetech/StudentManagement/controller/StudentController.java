@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,9 +43,9 @@ public class StudentController {
    }
 
    @PostMapping("/registerStudent")
-  public String registerStudent(@ModelAttribute StudentDetail studentDetail, StudentCourse studentCourse, BindingResult result) {
+  public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result ,StudentCourse studentCourse) {
     if(result.hasErrors()) {
-      return "studentList";
+      return "registerStudent";
     }
     service.registerStudent(studentDetail, studentCourse);
     return "redirect:/studentList";
