@@ -25,9 +25,12 @@ public class StudentService {
     return repository.searchStudentCourse();
   }
 
-  public void registerStudent(StudentDetail studentDetail) {
+  public void registerStudent(StudentDetail studentDetail, StudentCourse studentCourse) {
     Student student = studentDetail.getStudent();
     repository.registerStudent(student);
+    Integer id = student.getId();
+    studentCourse.setStudentId(id);
+    repository.registerStudentCourse(studentCourse);
   }
 
 }

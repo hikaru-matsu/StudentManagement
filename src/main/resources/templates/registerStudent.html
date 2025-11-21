@@ -8,6 +8,9 @@
 <h1>受講生登録</h1>
 <form th:action="@{/registerStudent}" th:object="${studentDetail}" method="post">
   <div>
+    <input type="hidden" id="id" th:field="*{student.id}" required>
+  </div>
+  <div>
     <label for="name">名前:</label>
     <input type="text" id="name" th:field="*{student.name}" required>
   </div>
@@ -41,7 +44,7 @@
   </div>
   <div>
     <label for="courseName">コース名:</label>
-    <input type="text" id="courseName" th:each="course : ${studentDetail.studentCourse}" th:text="${course.courseName}" required>
+    <input type="text" id="courseName" th:field="${studentCourse.courseName}" required>
   </div>
   <div>
     <button type="submit">登録</button>

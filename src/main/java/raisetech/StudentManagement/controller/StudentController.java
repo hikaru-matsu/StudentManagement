@@ -37,15 +37,16 @@ public class StudentController {
    @GetMapping("/newStudent")
    public String newStudent(Model model) {
     model.addAttribute("studentDetail", new StudentDetail());
+    model.addAttribute("studentCourse", new StudentCourse());
     return "registerStudent";
    }
 
    @PostMapping("/registerStudent")
-  public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
+  public String registerStudent(@ModelAttribute StudentDetail studentDetail, StudentCourse studentCourse, BindingResult result) {
     if(result.hasErrors()) {
       return "studentList";
     }
-    service.registerStudent(studentDetail);
+    service.registerStudent(studentDetail, studentCourse);
     return "redirect:/studentList";
    }
 }
