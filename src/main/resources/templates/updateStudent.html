@@ -11,7 +11,7 @@
 <h1>受講生情報更新</h1>
 <form th:action="@{/updateStudent}" th:object="${studentDetail}" method="post">
   <div>
-    <input type="hidden" id="id" th:field="*{student.id}" required>
+    <input type="hidden" id="id" th:field="*{student.id}">
   </div>
   <div>
     <label for="name">名前:</label>

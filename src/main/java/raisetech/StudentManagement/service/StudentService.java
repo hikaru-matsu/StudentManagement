@@ -51,8 +51,8 @@ public class StudentService {
       if(studentDetail.getStudent().getId() == id) {
         studentCourse.setCourseName(course.getCourseName());
       }
+      repository.registerStudentCourse(studentCourse);
     }
-    repository.registerStudentCourse(studentCourse);
   }
 
   @Transactional
