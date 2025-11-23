@@ -64,7 +64,11 @@ public class StudentService {
     for(StudentCourse studentCourse : studentCourseList) {
         repository.updateStudentCourse(studentCourse);
     }
+  }
 
+  public void deleteStudent(StudentDetail studentDetail) {
+    Integer id = studentDetail.getStudent().getId();
+    repository.deleteStudent(id);
   }
 
 }

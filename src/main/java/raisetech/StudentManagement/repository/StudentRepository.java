@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.repository;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -11,7 +12,7 @@ import raisetech.StudentManagement.data.StudentCourse;
 
 @Mapper
 public interface StudentRepository {
-  @Select("Select * From students")
+  @Select("Select * From students Where is_deleted = false")
   List<Student> search();
 
   @Select("Select * From students_courses")
@@ -35,4 +36,7 @@ public interface StudentRepository {
 
   @Update("Update students_courses Set course_name = #{courseName} Where id = #{id}")
   void updateStudentCourse(StudentCourse studentCourse);
+
+  @Delete("Update students Set is_deleted = true Where id = #{id}")
+  void deleteStudent(Integer id);
 }

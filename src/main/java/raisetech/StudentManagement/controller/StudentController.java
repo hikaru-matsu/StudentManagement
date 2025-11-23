@@ -68,6 +68,7 @@ public class StudentController {
       return "updateStudent";
     }
     service.updateStudent(studentDetail);
+    service.deleteStudent(studentDetail);
     return "redirect:/studentList";
    }
 
