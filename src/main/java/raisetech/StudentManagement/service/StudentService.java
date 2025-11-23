@@ -1,8 +1,11 @@
 package raisetech.StudentManagement.service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.SequencedCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
@@ -25,12 +28,43 @@ public class StudentService {
     return repository.searchStudentCourse();
   }
 
-  public void registerStudent(StudentDetail studentDetail, StudentCourse studentCourse) {
+  public StudentDetail studentDetailFindById(Integer id) {
+    StudentDetail studentDetail = new StudentDetail();
+    Student student = repository.studentFindById(id);
+    studentDetail.setStudent(student);
+    Integer studentId = id;
+    List<StudentCourse> studentCourseList = repository.studentCourseFindById(studentId);
+    studentDetail.setStudentCourse(studentCourseList);
+    return studentDetail;
+  }
+
+@Transactional
+  public void registerStudent(StudentDetail studentDetail) {
     Student student = studentDetail.getStudent();
     repository.registerStudent(student);
+
+    StudentCourse studentCourse = new StudentCourse();
     Integer id = student.getId();
     studentCourse.setStudentId(id);
+
+    for(StudentCourse course : studentDetail.getStudentCourse()) {
+      if(studentDetail.getStudent().getId() == id) {
+        studentCourse.setCourseName(course.getCourseName());
+      }
+    }
     repository.registerStudentCourse(studentCourse);
+  }
+
+  @Transactional
+  public void updateStudent(StudentDetail studentDetail) {
+    Student student = studentDetail.getStudent();
+    repository.updateStudent(student);
+    List<StudentCourse>studentCourseList = studentDetail.getStudentCourse();
+
+    for(StudentCourse studentCourse : studentCourseList) {
+        repository.updateStudentCourse(studentCourse);
+    }
+
   }
 
 }
