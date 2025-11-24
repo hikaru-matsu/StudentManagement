@@ -30,7 +30,7 @@ public interface StudentRepository {
   @Insert("Insert Into students_courses(student_id, course_name, start_date) Values(#{studentId}, #{courseName}, now())")
   void registerStudentCourse(StudentCourse studentCourse);
 
-  @Update("Update students Set name = #{name}, kana_name = #{kanaName}, nickname = #{nickname}, email = #{email}, area = #{area}, age = #{age}, gender = #{gender}, remark = #{remark}, is_deleted = #{isDeleted} Where id = #{id}")
+  @Update("Update students Set name = #{name}, kana_name = #{kanaName}, nickname = #{nickname}, email = #{email}, area = #{area}, age = #{age}, gender = #{gender}, remark = #{remark}, is_deleted = #{deleted} Where id = #{id}")
   void updateStudent(Student student);
 
   @Update("Update students_courses Set course_name = #{courseName} Where id = #{id}")
