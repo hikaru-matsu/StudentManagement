@@ -51,8 +51,13 @@
     <input type="text" id="courseName" th:field="*{studentCourse[__${stat.index}__].courseName}" required>
   </div>
   <div>
+    <label for="isDeleted">キャンセル:</label>
+    <input type="checkbox" id="isDeleted" th:field="*{student.isDeleted}">
+  </div>
+  <div>
     <button type="submit">更新</button>
   </div>
 </form>
+
 </body>
 </html>

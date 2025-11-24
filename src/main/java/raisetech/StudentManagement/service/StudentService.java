@@ -1,8 +1,6 @@
 package raisetech.StudentManagement.service;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.SequencedCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +62,5 @@ public class StudentService {
     for(StudentCourse studentCourse : studentCourseList) {
         repository.updateStudentCourse(studentCourse);
     }
-
   }
-
 }
