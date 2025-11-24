@@ -11,7 +11,7 @@ import raisetech.StudentManagement.data.StudentCourse;
 
 @Mapper
 public interface StudentRepository {
-  @Select("Select * From students Where is_deleted = false")
+  @Select("Select * From students")
   List<Student> search();
 
   @Select("Select * From students_courses")
