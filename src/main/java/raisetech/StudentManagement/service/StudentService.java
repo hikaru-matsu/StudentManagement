@@ -1,8 +1,6 @@
 package raisetech.StudentManagement.service;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.SequencedCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,10 +63,4 @@ public class StudentService {
         repository.updateStudentCourse(studentCourse);
     }
   }
-
-  public void deleteStudent(StudentDetail studentDetail) {
-    Integer id = studentDetail.getStudent().getId();
-    repository.deleteStudent(id);
-  }
-
 }
