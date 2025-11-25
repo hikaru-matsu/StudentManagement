@@ -1,46 +1,51 @@
 package raisetech.StudentManagement.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
+/**
+ * 受講生情報を取り扱うService
+ */
 @Service
 public class StudentService {
   private StudentRepository repository;
+  private StudentConverter studentConveter;
 
   @Autowired
-  public StudentService(StudentRepository repository) {
+  public StudentService(StudentRepository repository, StudentConverter studentConverter) {
     this.repository = repository;
+    this.studentConveter = studentConverter;
   }
 
-  public List<Student> searchStudentList() {
-    return repository.search();
+  public List<StudentDetail> searchStudentDetail() {
+    List<Student>studentList = repository.search();
+    List<StudentCourse>studentCourseList = repository.searchStudentCourse();
+    return studentConveter.convertStudentDetail(studentList, studentCourseList);
   }
 
-  public List<StudentCourse> searchStudentCourseList() {
-    return repository.searchStudentCourse();
+  public StudentDetail studentDetailFindById(Integer id) {
+    Student student = repository.studentFindById(id);
+    List<StudentCourse> studentCourse = repository.studentCoursesFindById(student.getId());
+    return new StudentDetail(student, studentCourse);
   }
 
 @Transactional
-  public void registerStudent(StudentDetail studentDetail) {
-    Student student = studentDetail.getStudent();
-    repository.registerStudent(student);
-
-    StudentCourse studentCourse = new StudentCourse();
-    Integer id = student.getId();
-    studentCourse.setStudentId(id);
-
-    for(StudentCourse course : studentDetail.getStudentCourse()) {
-      if(studentDetail.getStudent().getId() == id) {
-        studentCourse.setCourseName(course.getCourseName());
-      }
+  public StudentDetail registerStudent(StudentDetail studentDetail) {
+    repository.registerStudent(studentDetail.getStudent());
+    for(StudentCourse studentCourse : studentDetail.getStudentCourse()) {
+      studentCourse.setStudentId(studentDetail.getStudent().getId());
+      studentCourse.setStartDate(LocalDate.now());
       repository.registerStudentCourse(studentCourse);
     }
+    return studentDetail;
   }
 
   @Transactional
