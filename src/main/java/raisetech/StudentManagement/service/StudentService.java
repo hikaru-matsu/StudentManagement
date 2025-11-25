@@ -26,16 +26,6 @@ public class StudentService {
     return repository.searchStudentCourse();
   }
 
-  public StudentDetail studentDetailFindById(Integer id) {
-    StudentDetail studentDetail = new StudentDetail();
-    Student student = repository.studentFindById(id);
-    studentDetail.setStudent(student);
-    Integer studentId = id;
-    List<StudentCourse> studentCourseList = repository.studentCourseFindById(studentId);
-    studentDetail.setStudentCourse(studentCourseList);
-    return studentDetail;
-  }
-
 @Transactional
   public void registerStudent(StudentDetail studentDetail) {
     Student student = studentDetail.getStudent();
