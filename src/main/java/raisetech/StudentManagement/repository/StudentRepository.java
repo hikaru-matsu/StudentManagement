@@ -30,7 +30,7 @@ public interface StudentRepository {
   @Options(useGeneratedKeys = true, keyProperty = "id")
   void registerStudent(Student student);
 
-  @Insert("Insert Into students_courses(student_id, course_name) Values(#{studentId}, #{courseName})")
+  @Insert("Insert Into students_courses(student_id, course_name, start_date) Values(#{studentId}, #{courseName}, #{startDate})")
   void registerStudentCourse(StudentCourse studentCourse);
 
   @Update("Update students Set name = #{name}, kana_name = #{kanaName}, nickname = #{nickname}, email = #{email}, area = #{area}, age = #{age}, gender = #{gender}, remark = #{remark}, is_deleted = #{isDeleted} Where id = #{id}")
