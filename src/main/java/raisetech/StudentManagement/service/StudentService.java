@@ -17,18 +17,18 @@ import raisetech.StudentManagement.repository.StudentRepository;
 @Service
 public class StudentService {
   private StudentRepository repository;
-  private StudentConverter studentConveter;
+  private StudentConverter converter;
 
   @Autowired
-  public StudentService(StudentRepository repository, StudentConverter studentConverter) {
+  public StudentService(StudentRepository repository, StudentConverter converter) {
     this.repository = repository;
-    this.studentConveter = studentConverter;
+    this.converter = converter;
   }
 
   public List<StudentDetail> searchStudentDetail() {
-    List<Student>studentList = repository.search();
+    List<Student>studentList = repository.searchStudent();
     List<StudentCourse>studentCourseList = repository.searchStudentCourse();
-    return studentConveter.convertStudentDetail(studentList, studentCourseList);
+    return converter.convertStudentDetail(studentList, studentCourseList);
   }
 
   public StudentDetail studentDetailFindById(Integer id) {
@@ -39,22 +39,24 @@ public class StudentService {
 
 @Transactional
   public StudentDetail registerStudent(StudentDetail studentDetail) {
-    repository.registerStudent(studentDetail.getStudent());
-    for(StudentCourse studentCourse : studentDetail.getStudentCourse()) {
-      studentCourse.setStudentId(studentDetail.getStudent().getId());
-      studentCourse.setStartDate(LocalDate.now());
+    Student student = studentDetail.getStudent();
+    repository.registerStudent(student);
+    studentDetail.getStudentCourse().forEach(studentCourse -> {
+      initStudentsCourse(studentCourse, student);
       repository.registerStudentCourse(studentCourse);
-    }
+    });
     return studentDetail;
+  }
+
+  private void initStudentsCourse(StudentCourse studentCourse, Student student) {
+    studentCourse.setStudentId(student.getId());
+    studentCourse.setStartDate(LocalDate.now());
   }
 
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
-    Student student = studentDetail.getStudent();
-    repository.updateStudent(student);
-    List<StudentCourse>studentCourseList = studentDetail.getStudentCourse();
-
-    for(StudentCourse studentCourse : studentCourseList) {
+    repository.updateStudent(studentDetail.getStudent());
+    for(StudentCourse studentCourse : studentDetail.getStudentCourse()) {
         repository.updateStudentCourse(studentCourse);
     }
   }

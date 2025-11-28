@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="raisetech.StudentManagement.repository.StudentRepository">
+
+  <select id="searchStudent" resultType="raisetech.StudentManagement.data.Student">
+    Select * From students
+  </select>
+
+  <select id="searchStudentCourse" resultType="raisetech.StudentManagement.data.StudentCourse">
+    Select * From students_courses
+  </select>
+
+  <select id="studentFindById" resultType="raisetech.StudentManagement.data.Student">
+    Select * From students Where id = #{id}
+  </select>
+
+  <select id="studentCoursesFindById" resultType="raisetech.StudentManagement.data.StudentCourse">
+    Select * From students_courses Where student_id = #{studentId}
+  </select>
+
+  <insert id="registerStudent" useGeneratedKeys="true" keyProperty="id">
+    Insert Into students(name, kana_name, nickname, email, area, age, gender, remark) Values(#{name}, #{kanaName}, #{nickname}, #{email}, #{area}, #{age}, #{gender}, #{remark})
+  </insert>
+
+  <insert id="registerStudentCourse" useGeneratedKeys="true" keyProperty="id">
+    Insert Into students_courses(student_id, course_name, start_date) Values(#{studentId}, #{courseName}, #{startDate})
+  </insert>
+
+  <update id="updateStudent">
+    Update students Set name = #{name}, kana_name = #{kanaName}, nickname = #{nickname}, email = #{email}, area = #{area}, age = #{age}, gender = #{gender}, remark = #{remark}, is_deleted = #{isDeleted} Where id = #{id}
+  </update>
+
+  <update id="updateStudentCourse">
+    Update students_courses Set course_name = #{courseName} Where id = #{id}
+  </update>
+
+</mapper>
