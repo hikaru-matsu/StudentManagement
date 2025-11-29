@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.domain.StudentDetail;
+import raisetech.StudentManagement.exception.OriginalException.OriginalIdException;
 import raisetech.StudentManagement.service.StudentService;
 
 /**
@@ -34,8 +35,12 @@ public class StudentController {
    }
 
    @GetMapping("/student/{id}")
-   public StudentDetail studentDetailFindById (@PathVariable  Integer id) {
+   public StudentDetail studentDetailFindById (@PathVariable  Integer id) throws OriginalIdException {
+    try {
       return service.studentDetailFindById(id);
+    } catch (Exception e) {
+      throw new OriginalIdException("入力値が不正です！");
+    }
    }
 
    @PostMapping("/registerStudent")
