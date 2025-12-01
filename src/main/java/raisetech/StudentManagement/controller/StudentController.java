@@ -1,5 +1,7 @@
 package raisetech.StudentManagement.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +31,13 @@ public class StudentController {
     this.service = service;
   }
 
+  @Operation(summary = "一覧検索", description = "受講生情報の一覧を検索します")
   @GetMapping("/studentList")
   public List<StudentDetail> getStudentList() {
     return service.searchStudentDetail();
    }
 
+   @Operation(summary = "単一検索", description = "単一の受講生情報を検索します")
    @GetMapping("/student/{id}")
    public StudentDetail studentDetailFindById (@PathVariable  Integer id) throws OriginalIdException {
     try {
@@ -43,14 +47,16 @@ public class StudentController {
     }
    }
 
+   @Operation(summary = "受講生登録", description = "1件の受講生情報を登録します")
    @PostMapping("/registerStudent")
   public ResponseEntity<StudentDetail> registerStudent(@RequestBody @Valid StudentDetail studentDetail) {
     StudentDetail registerStudentDetail = service.registerStudent(studentDetail);
     return ResponseEntity.ok(registerStudentDetail);
    }
 
+   @Operation(summary = "受講生更新", description = "受講生情報を更新します")
    @PutMapping("/updateStudent")
-  public ResponseEntity<String> updateStudent(@RequestBody StudentDetail studentDetail) {
+  public ResponseEntity<String> updateStudent(@Parameter(description = "受講生詳細") @RequestBody StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
     return ResponseEntity.ok("更新処理が成功しました！");
    }
