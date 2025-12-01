@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,15 +44,18 @@ class StudentServiceTest {
   @Test
   void 受講生一覧検索機能＿リポジトリとコンバーターの処理が適切に呼び出せていること() {
     List<Student>studentList = new ArrayList<>();
+    List<StudentDetail>expected = new ArrayList<>();
 
     when(repository.searchStudent()).thenReturn(studentList);
     when(repository.searchStudentCourse()).thenReturn(studentCourseList);
 
-    sut.searchStudentDetail();
+    List<StudentDetail>actual = sut.searchStudentDetail();
 
     Mockito.verify(repository, times(1)).searchStudent();
     Mockito.verify(repository, times(1)).searchStudentCourse();
     Mockito.verify(converter, times(1)).convertStudentDetail(studentList, studentCourseList);
+
+    Assertions.assertEquals(expected, actual);
   }
 
   @Test
@@ -59,13 +64,18 @@ class StudentServiceTest {
     student.setId(id);
     studentCourse.setStudentId(id);
     studentCourseList.add(studentCourse);
+    StudentDetail expected = new StudentDetail();
+    expected.setStudent(student);
+    expected.setStudentCourse(studentCourseList);
 
     when(repository.studentFindById(id)).thenReturn(student);
     when(repository.studentCoursesFindById(id)).thenReturn(studentCourseList);
-    sut.studentDetailFindById(id);
+    StudentDetail actual = sut.studentDetailFindById(id);
 
     Mockito.verify(repository, times(1)).studentFindById(id);
     Mockito.verify(repository, times(1)).studentCoursesFindById(id);
+
+    Assertions.assertEquals(expected,  actual);
   }
 
   @Test
