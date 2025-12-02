@@ -4,10 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import net.bytebuddy.build.ToStringPlugin.Enhance;
-import org.apache.ibatis.jdbc.Null;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -97,11 +94,24 @@ class StudentServiceTest {
   }
 
   @Test
-  void 受講生単一検索機能＿リポジトリで例外がスローされた場合(){
+  void 受講生単一検索機能＿Idにnullが渡され例外がスローされた場合(){
     when(repository.studentFindById(null)).thenThrow(new RuntimeException("リポジトリから例外がスローされる！"));
 
     assertThrows(RuntimeException.class, () -> {
       sut.studentDetailFindById(null);
+    });
+  }
+
+  @Test
+  void 受講生単一検索機能＿リポジトリで例外がスローされた場合(){
+    Integer id = 99;
+    student.setId(id);
+    studentCourse.setStudentId(id);
+    studentCourseList.add(studentCourse);
+    when(repository.studentFindById(id)).thenThrow(new RuntimeException("リポジトリから例外がスローされる！"));
+
+    assertThrows(RuntimeException.class, () -> {
+      sut.studentDetailFindById(id);
     });
   }
 
