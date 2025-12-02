@@ -1,10 +1,11 @@
 package raisetech.StudentManagement.service;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,6 +77,20 @@ class StudentServiceTest {
     Mockito.verify(repository, times(1)).studentCoursesFindById(id);
 
     Assertions.assertEquals(expected,  actual);
+  }
+
+  @Test
+  void 異常系＿引数がnullの場合() {
+    Exception exception = assertThrows(NullPointerException.class, () -> {
+      sut.studentDetailFindById(null);
+    });
+  }
+
+  @Test
+  void 異常系＿引数が存在しないIDの場合() {
+    Exception exception = assertThrows(NullPointerException.class, () -> {
+      sut.studentDetailFindById(0);
+    });
   }
 
   @Test
