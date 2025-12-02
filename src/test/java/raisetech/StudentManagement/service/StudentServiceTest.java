@@ -1,12 +1,13 @@
 package raisetech.StudentManagement.service;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import net.bytebuddy.build.ToStringPlugin.Enhance;
+import org.apache.ibatis.jdbc.Null;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,9 +47,11 @@ class StudentServiceTest {
   void 受講生一覧検索機能＿リポジトリとコンバーターの処理が適切に呼び出せていること() {
     List<Student>studentList = new ArrayList<>();
     List<StudentDetail>expected = new ArrayList<>();
+    List<StudentDetail> studentDetailList = new ArrayList<>();
 
     when(repository.searchStudent()).thenReturn(studentList);
     when(repository.searchStudentCourse()).thenReturn(studentCourseList);
+    when(converter.convertStudentDetail(studentList, studentCourseList)).thenReturn(studentDetailList);
 
     List<StudentDetail>actual = sut.searchStudentDetail();
 
@@ -80,18 +83,29 @@ class StudentServiceTest {
   }
 
   @Test
-  void 異常系＿引数がnullの場合() {
+  void 受講生単一検索機能＿引数がnullの場合() {
     Exception exception = assertThrows(NullPointerException.class, () -> {
       sut.studentDetailFindById(null);
     });
   }
 
   @Test
-  void 異常系＿引数が存在しないIDの場合() {
+  void 受講生単一検索機能＿引数が存在しないIDの場合() {
     Exception exception = assertThrows(NullPointerException.class, () -> {
       sut.studentDetailFindById(0);
     });
   }
+
+  @Test
+  void 受講生単一検索機能＿リポジトリで例外がスローされた場合(){
+    when(repository.studentFindById(null)).thenThrow(new RuntimeException("リポジトリから例外がスローされる！"));
+
+    assertThrows(RuntimeException.class, () -> {
+      sut.studentDetailFindById(null);
+    });
+  }
+
+
 
   @Test
   void 受講生登録機能＿リポジトリの処理が適切に呼びされていること() {
