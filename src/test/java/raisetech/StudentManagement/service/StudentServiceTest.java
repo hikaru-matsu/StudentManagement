@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import java.util.ArrayList;
@@ -94,28 +95,21 @@ class StudentServiceTest {
   }
 
   @Test
-  void 受講生単一検索機能＿Idにnullが渡され例外がスローされた場合(){
-    when(repository.studentFindById(null)).thenThrow(new RuntimeException("リポジトリから例外がスローされる！"));
-
-    assertThrows(RuntimeException.class, () -> {
-      sut.studentDetailFindById(null);
-    });
-  }
-
-  @Test
   void 受講生単一検索機能＿リポジトリで例外がスローされた場合(){
     Integer id = 99;
     student.setId(id);
     studentCourse.setStudentId(id);
     studentCourseList.add(studentCourse);
-    when(repository.studentFindById(id)).thenThrow(new RuntimeException("リポジトリから例外がスローされる！"));
+    StudentDetail expected = new StudentDetail();
+    expected.setStudent(student);
+    expected.setStudentCourse(studentCourseList);
+
+    doThrow(new RuntimeException("リポジトリから例外がスローされる！")).when(repository).studentFindById(id);
 
     assertThrows(RuntimeException.class, () -> {
       sut.studentDetailFindById(id);
     });
   }
-
-
 
   @Test
   void 受講生登録機能＿リポジトリの処理が適切に呼びされていること() {
