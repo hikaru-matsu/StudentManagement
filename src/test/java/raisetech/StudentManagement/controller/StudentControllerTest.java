@@ -9,6 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,9 +50,10 @@ class StudentControllerTest {
 
   @Test
   void 受講生詳細の一覧検索が実行できて空のリストが返ってくること() throws Exception {
+    when(service.searchStudentDetail()).thenReturn(List.of(new StudentDetail()));
     mockMvc.perform(MockMvcRequestBuilders.get("/studentList"))
         .andExpect(status().isOk())
-        .andExpect(content().json("[]"));
+        .andExpect(content().json("[{\"student\":null,\"studentCourse\":null}]"));
     verify(service, times(1)).searchStudentDetail();
   }
 
@@ -73,6 +75,8 @@ class StudentControllerTest {
     studentDetail.setStudent(student);
     studentDetail.setStudentCourse(studentCourseList);
 
+    when(service.studentDetailFindById(999)).thenReturn(studentDetail);
+
     try {
       mockMvc.perform(MockMvcRequestBuilders.get("/student/999"))
           .andExpect(status().isOk());
@@ -90,20 +94,26 @@ class StudentControllerTest {
 
     when(service.registerStudent(studentDetail)).thenReturn(studentDetail);
 
-    mockMvc.perform(post("/registerStudent").contentType(MediaType.APPLICATION_JSON).content(json));
+    mockMvc.perform(post("/registerStudent").contentType(MediaType.APPLICATION_JSON).content(json))
+        .andExpect(status().isOk());
     verify(service, times(1)).registerStudent(studentDetail);
   }
 
   @Test
   void 受講生更新が実行できていること() throws Exception {
+    Student student = new Student();
+    StudentCourse studentCourse = new StudentCourse();
     StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudent(student);
+    studentDetail.setStudentCourse(List.of(studentCourse));
     ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(studentDetail);
 
     doNothing().when(service).updateStudent(studentDetail);
 
-    mockMvc.perform(post("/updateStudent").contentType(MediaType.APPLICATION_JSON).content(json));
-    verify(service, times(0)).updateStudent(studentDetail);
+    mockMvc.perform(put("/updateStudent").contentType(MediaType.APPLICATION_JSON).content(json))
+        .andExpect(status().isOk());
+    verify(service,times(0)).updateStudent(studentDetail);
   }
 
   @Test
