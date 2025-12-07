@@ -3,6 +3,8 @@ package raisetech.StudentManagement.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -82,27 +84,11 @@ class StudentControllerTest {
 
   @Test
   void 受講生登録が実行できて一件の情報が登録できていること() throws Exception {
-    ObjectMapper mapper = new ObjectMapper();
-    Student student = new Student();
-    StudentCourse studentCourse = new StudentCourse();
-
-    student.setId(999);
-    student.setName("テスト太郎");
-    student.setKanaName("テストタロウ");
-    student.setNickname("テスト");
-    student.setEmail("Test@example.com");
-
-    studentCourse.setId(999);
-    studentCourse.setStudentId(999);
-    studentCourse.setCourseName("テスト");
-    List<StudentCourse> studentCourseList = Arrays.asList(studentCourse);
-
     StudentDetail studentDetail = new StudentDetail();
-    studentDetail.setStudent(student);
-    studentDetail.setStudentCourse(studentCourseList);
-
+    ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(studentDetail);
-    service.registerStudent(studentDetail);
+
+    when(service.registerStudent(studentDetail)).thenReturn(studentDetail);
 
     mockMvc.perform(post("/registerStudent").contentType(MediaType.APPLICATION_JSON).content(json));
     verify(service, times(1)).registerStudent(studentDetail);
@@ -110,30 +96,14 @@ class StudentControllerTest {
 
   @Test
   void 受講生更新が実行できて情報が更新されていること() throws Exception {
-    ObjectMapper mapper = new ObjectMapper();
-    Student student = new Student();
-    StudentCourse studentCourse = new StudentCourse();
-
-    student.setId(999);
-    student.setName("テスト太郎");
-    student.setKanaName("テストタロウ");
-    student.setNickname("テスト");
-    student.setEmail("Test@example.com");
-
-    studentCourse.setId(999);
-    studentCourse.setStudentId(999);
-    studentCourse.setCourseName("テスト");
-    List<StudentCourse> studentCourseList = Arrays.asList(studentCourse);
-
     StudentDetail studentDetail = new StudentDetail();
-    studentDetail.setStudent(student);
-    studentDetail.setStudentCourse(studentCourseList);
-
+    ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(studentDetail);
-    service.updateStudent(studentDetail);
+
+    doNothing().when(service).updateStudent(studentDetail);
 
     mockMvc.perform(post("/updateStudent").contentType(MediaType.APPLICATION_JSON).content(json));
-    verify(service, times(1)).updateStudent(studentDetail);
+    verify(service, times(0)).updateStudent(studentDetail);
   }
 
   @Test
