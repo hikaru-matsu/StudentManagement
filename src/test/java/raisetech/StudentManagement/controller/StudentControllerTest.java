@@ -21,9 +21,9 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.assertj.MockMvcTester.MockMvcRequestBuilder;
@@ -40,7 +40,7 @@ class StudentControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-  @MockitoBean
+  @MockBean
   private StudentService service;
 
   private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -102,8 +102,10 @@ class StudentControllerTest {
     studentDetail.setStudentCourse(studentCourseList);
 
     String json = mapper.writeValueAsString(studentDetail);
+    service.registerStudent(studentDetail);
 
     mockMvc.perform(post("/registerStudent").contentType(MediaType.APPLICATION_JSON).content(json));
+    verify(service, times(1)).registerStudent(studentDetail);
   }
 
   @Test
@@ -128,8 +130,10 @@ class StudentControllerTest {
     studentDetail.setStudentCourse(studentCourseList);
 
     String json = mapper.writeValueAsString(studentDetail);
+    service.updateStudent(studentDetail);
 
     mockMvc.perform(post("/updateStudent").contentType(MediaType.APPLICATION_JSON).content(json));
+    verify(service, times(1)).updateStudent(studentDetail);
   }
 
   @Test
