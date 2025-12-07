@@ -83,7 +83,7 @@ class StudentControllerTest {
   }
 
   @Test
-  void 受講生登録が実行できて一件の情報が登録できていること() throws Exception {
+  void 受講生登録が実行できて空の情報が登録できていること() throws Exception {
     StudentDetail studentDetail = new StudentDetail();
     ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(studentDetail);
@@ -95,7 +95,7 @@ class StudentControllerTest {
   }
 
   @Test
-  void 受講生更新が実行できて情報が更新されていること() throws Exception {
+  void 受講生更新が実行できていること() throws Exception {
     StudentDetail studentDetail = new StudentDetail();
     ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(studentDetail);
