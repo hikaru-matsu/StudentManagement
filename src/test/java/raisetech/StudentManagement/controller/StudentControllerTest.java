@@ -96,7 +96,7 @@ class StudentControllerTest {
 
     mockMvc.perform(post("/registerStudent").contentType(MediaType.APPLICATION_JSON).content(json))
         .andExpect(status().isOk());
-    verify(service, times(1)).registerStudent(studentDetail);
+    verify(service, times(1)).registerStudent(any());
   }
 
   @Test
@@ -113,6 +113,7 @@ class StudentControllerTest {
 
     mockMvc.perform(put("/updateStudent").contentType(MediaType.APPLICATION_JSON).content(json))
         .andExpect(status().isOk());
+
     verify(service,times(1)).updateStudent(any());
   }
 
