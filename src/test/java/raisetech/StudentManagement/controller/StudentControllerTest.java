@@ -92,7 +92,7 @@ class StudentControllerTest {
     ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(studentDetail);
 
-    when(service.registerStudent(studentDetail)).thenReturn(studentDetail);
+    when(service.registerStudent(any())).thenReturn(studentDetail);
 
     mockMvc.perform(post("/registerStudent").contentType(MediaType.APPLICATION_JSON).content(json))
         .andExpect(status().isOk());
@@ -113,7 +113,7 @@ class StudentControllerTest {
 
     mockMvc.perform(put("/updateStudent").contentType(MediaType.APPLICATION_JSON).content(json))
         .andExpect(status().isOk());
-    verify(service,times(0)).updateStudent(studentDetail);
+    verify(service,times(1)).updateStudent(any());
   }
 
   @Test
