@@ -57,4 +57,35 @@ class StudentConverterTest {
 
     Assertions.assertEquals(expect, actual);
   }
+
+  @Test
+  void IDが不一致でコンバータ処理が正常に実行できないこと() {
+    student.setId(99);
+    student.setName("テスト太郎");
+    student.setKanaName("テストタロウ");
+    student.setNickname("テッくん");
+    student.setEmail("test@example.com");
+    student.setArea("不思議の国");
+    student.setAge(99);
+    student.setGender("ガチ両刀");
+    studentList.add(student);
+
+    studentCourse.setId(99);
+    studentCourse.setStudentId(1);
+    studentCourse.setCourseName("テストコース");
+    studentCourseList.add(studentCourse);
+
+    List<StudentDetail>expect = sut.convertStudentDetail(studentList, studentCourseList);
+
+    StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudent(student);
+    studentCourseList.clear();
+    studentDetail.setStudentCourse(studentCourseList);
+
+    List<StudentDetail>actual = new ArrayList<>();
+    actual.add(studentDetail);
+
+    Assertions.assertEquals(expect,actual);
+  }
+
 }
