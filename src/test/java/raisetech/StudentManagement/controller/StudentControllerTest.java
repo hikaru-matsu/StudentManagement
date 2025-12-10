@@ -71,6 +71,8 @@ class StudentControllerTest {
     studentCourse.setCourseName("テスト");
     List<StudentCourse> studentCourseList = Arrays.asList(studentCourse);
 
+    Integer id = student.getId();
+
     StudentDetail studentDetail = new StudentDetail();
     studentDetail.setStudent(student);
     studentDetail.setStudentCourse(studentCourseList);
@@ -78,7 +80,7 @@ class StudentControllerTest {
     when(service.studentDetailFindById(999)).thenReturn(studentDetail);
 
     try {
-      mockMvc.perform(MockMvcRequestBuilders.get("/student/999"))
+      mockMvc.perform(MockMvcRequestBuilders.get("/student/{id}", id))
           .andExpect(status().isOk());
     } catch (Exception e) {
       throw new RuntimeException(e);
