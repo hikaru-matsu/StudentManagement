@@ -50,10 +50,10 @@ class StudentConverterTest {
     studentDetail.setStudent(student);
     studentDetail.setStudentCourse(studentCourseList);
 
-    List<StudentDetail>expect = sut.convertStudentDetail(studentList, studentCourseList);
+    List<StudentDetail>actual = sut.convertStudentDetail(studentList, studentCourseList);
 
-    List<StudentDetail>actual = new ArrayList<>();
-    actual.add(studentDetail);
+    List<StudentDetail>expect = new ArrayList<>();
+    expect.add(studentDetail);
 
     Assertions.assertEquals(expect, actual);
   }
@@ -75,15 +75,15 @@ class StudentConverterTest {
     studentCourse.setCourseName("テストコース");
     studentCourseList.add(studentCourse);
 
-    List<StudentDetail>expect = sut.convertStudentDetail(studentList, studentCourseList);
+    List<StudentDetail>actual = sut.convertStudentDetail(studentList, studentCourseList);
 
     StudentDetail studentDetail = new StudentDetail();
     studentDetail.setStudent(student);
     studentCourseList.clear();
     studentDetail.setStudentCourse(studentCourseList);
 
-    List<StudentDetail>actual = new ArrayList<>();
-    actual.add(studentDetail);
+    List<StudentDetail>expect = new ArrayList<>();
+    expect.add(studentDetail);
 
     Assertions.assertEquals(expect,actual);
   }
