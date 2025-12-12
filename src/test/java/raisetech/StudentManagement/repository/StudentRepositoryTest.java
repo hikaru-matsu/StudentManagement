@@ -42,6 +42,15 @@ class StudentRepositoryTest {
   }
 
   @Test
+  void 一件の受講生コース情報が取得できること() {
+    List<StudentCourse> actual = sut.studentCoursesFindById(1);
+    List<StudentCourse>studentCourseList = sut.searchStudentCourse();
+
+    assertThat(studentCourseList.contains(actual));
+    assertThat(actual.size()).isEqualTo(1);
+  }
+
+  @Test
   void 存在しないIDでは受講生情報が適切に取得できないこと() {
     Student actual = sut.studentFindById(0);
     assertThat(actual).isEqualTo(null);
@@ -54,14 +63,6 @@ class StudentRepositoryTest {
     assertThat(actual.size()).isEqualTo(0);
   }
 
-  @Test
-  void 一件の受講生コース情報が取得できること() {
-    List<StudentCourse> actual = sut.studentCoursesFindById(1);
-    List<StudentCourse>studentCourseList = sut.searchStudentCourse();
-
-    assertThat(studentCourseList.contains(actual));
-    assertThat(actual.size()).isEqualTo(1);
-  }
 
   @Test
   void 受講生の登録が行えること() {
