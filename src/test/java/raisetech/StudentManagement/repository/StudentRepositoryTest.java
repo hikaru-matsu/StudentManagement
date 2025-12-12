@@ -37,7 +37,7 @@ class StudentRepositoryTest {
     List<Student>actualList = List.of(actual);
     List<Student>studentList = sut.searchStudent();
 
-    assertThat(studentList.contains(actual));
+    assertThat(studentList.contains(actual)).isEqualTo(true);
     assertThat(actualList.size()).isEqualTo(1);
   }
 
@@ -46,7 +46,9 @@ class StudentRepositoryTest {
     List<StudentCourse> actual = sut.studentCoursesFindById(1);
     List<StudentCourse>studentCourseList = sut.searchStudentCourse();
 
-    assertThat(studentCourseList.contains(actual));
+    for(StudentCourse studentCourse : actual) {
+      assertThat(studentCourseList.contains(studentCourse)).isEqualTo(true);
+    }
     assertThat(actual.size()).isEqualTo(1);
   }
 
@@ -111,7 +113,7 @@ class StudentRepositoryTest {
 
     Student actual = sut.studentFindById(1);
 
-    assertEquals(student, actual);
+    assertThat(actual).isEqualTo(student);
   }
 
   @Test
@@ -127,7 +129,7 @@ class StudentRepositoryTest {
     List<StudentCourse> actual = sut.studentCoursesFindById(1);
     List<StudentCourse>studentCourseList = List.of(studentCourse);
 
-    assertEquals(studentCourseList, actual);
+    assertThat(actual).isEqualTo(studentCourseList);
     assertThat(actual.size()).isEqualTo(1);
   }
 }
