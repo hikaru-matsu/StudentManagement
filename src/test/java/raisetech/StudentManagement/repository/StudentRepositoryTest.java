@@ -9,7 +9,6 @@ import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
-import raisetech.StudentManagement.domain.StudentDetail;
 
 @MybatisTest
 class StudentRepositoryTest {
@@ -49,8 +48,10 @@ class StudentRepositoryTest {
     List<StudentCourse>studentCourseList = sut.searchStudentCourse();
 
     for(StudentCourse studentCourse : studentCourseList) {
-      if(studentCourse.getStudentId() == 1) {
-        assertThat(actual.getFirst()).usingRecursiveComparison().isEqualTo(studentCourse);
+      for(StudentCourse actualCourse : actual) {
+        if(studentCourse.getStudentId() == actualCourse.getStudentId()) {
+          assertThat(actualCourse).usingRecursiveComparison().isEqualTo(studentCourse);
+        }
       }
     }
     assertThat(actual.size()).isEqualTo(1);
