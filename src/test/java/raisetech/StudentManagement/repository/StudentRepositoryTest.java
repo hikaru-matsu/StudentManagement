@@ -9,6 +9,7 @@ import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
+import raisetech.StudentManagement.domain.StudentDetail;
 
 @MybatisTest
 class StudentRepositoryTest {
@@ -34,7 +35,11 @@ class StudentRepositoryTest {
     List<Student>actualList = List.of(actual);
     List<Student>studentList = sut.searchStudent();
 
-    assertThat(studentList.contains(actual)).isEqualTo(true);
+    for(Student student : studentList){
+      if(student.getId() == 1) {
+        assertThat(actual).usingRecursiveComparison().isEqualTo(student);
+      }
+    }
     assertThat(actualList.size()).isEqualTo(1);
   }
 
@@ -43,8 +48,10 @@ class StudentRepositoryTest {
     List<StudentCourse> actual = sut.studentCoursesFindById(1);
     List<StudentCourse>studentCourseList = sut.searchStudentCourse();
 
-    for(StudentCourse studentCourse : actual) {
-      assertThat(studentCourseList.contains(studentCourse)).isEqualTo(true);
+    for(StudentCourse studentCourse : studentCourseList) {
+      if(studentCourse.getStudentId() == 1) {
+        assertThat(actual.getFirst()).usingRecursiveComparison().isEqualTo(studentCourse);
+      }
     }
     assertThat(actual.size()).isEqualTo(1);
   }
@@ -110,7 +117,7 @@ class StudentRepositoryTest {
 
     Student actual = sut.studentFindById(1);
 
-    assertThat(actual).isEqualTo(student);
+    assertThat(actual).usingRecursiveComparison().isEqualTo(student);
   }
 
   @Test
@@ -126,7 +133,7 @@ class StudentRepositoryTest {
     List<StudentCourse> actual = sut.studentCoursesFindById(1);
     List<StudentCourse>studentCourseList = List.of(studentCourse);
 
-    assertThat(actual).isEqualTo(studentCourseList);
+    assertThat(actual).usingRecursiveComparison().isEqualTo(studentCourseList);
     assertThat(actual.size()).isEqualTo(1);
   }
 }

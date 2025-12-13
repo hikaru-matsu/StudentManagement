@@ -9,7 +9,6 @@ import lombok.Setter;
 @Schema(description = "受講生コース情報")
 @Getter
 @Setter
-@EqualsAndHashCode
 public class StudentCourse {
   private Integer id;
   private Integer studentId;

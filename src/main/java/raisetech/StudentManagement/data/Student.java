@@ -11,7 +11,6 @@ import lombok.Setter;
 @Schema(description = "受講生")
 @Getter
 @Setter
-@EqualsAndHashCode
 public class Student {
   private Integer id;
   @NotBlank(message="名前の入力は必須です")
