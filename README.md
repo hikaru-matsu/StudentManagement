@@ -10,7 +10,8 @@ Spring Bootを用いた受講生管理システムです。
 
 ## 🏗 AWS インフラ構成図
 
-<img width="1281" height="1221" alt="AWS構成図 drawio" src="https://github.com/user-attachments/assets/72d6fb99-3878-4d30-b656-231a14867c74" />
+<img width="1285" height="1281" alt="AWS構成図 drawio" src="https://github.com/user-attachments/assets/71f9c83d-dd8c-4f05-8a80-fc5b1523c987" />
+
 
 ---
 
